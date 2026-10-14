@@ -1,0 +1,14 @@
+# Pruebas cocotb del núcleo FemtoRV32 Quark.   Uso:  make -f Makefile.cpu
+# (N_RANDOM=n cambia el número de programas aleatorios por prueba; por defecto 12)
+SIM ?= icarus
+TOPLEVEL_LANG ?= verilog
+SRC_DIR ?= $(abspath $(CURDIR)/../src)
+
+# -DBENCH inicializa 'cycles' y el banco de registros (ver femtorv32_quark.v)
+COMPILE_ARGS += -DBENCH
+SIM_BUILD = sim_build/cpu
+VERILOG_SOURCES = $(SRC_DIR)/femtorv32_quark.v
+TOPLEVEL = FemtoRV32
+COCOTB_TEST_MODULES = test_femtorv32_quark
+
+include $(shell cocotb-config --makefiles)/Makefile.sim
