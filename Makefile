@@ -4,23 +4,43 @@ TT_TOOLS = tt
 TT_TOOL = $(TT_TOOLS)/tt_tool.py
 PDK_ROOT ?= $(HOME)/.volare
 PDK ?= sky130A
+IMAGE = localhost/femto-librelane:2.4.2
+PROJECT_ROOT = $(CURDIR)
 
+.PHONY: all user-config harden submission clean test version
 
-all:
-	@test -f $(TT_TOOL) || { \
-		echo "ERROR: no se encuentra $(TT_TOOL)"; \
-		echo "Clona tt-support-tools en ./tt"; \
-		exit 1; \
-	}
-	PDK_ROOT="$(PDK_ROOT)" PDK="$(PDK)" python3 $(TT_TOOL) --create-user-config
-	PDK_ROOT="$(PDK_ROOT)" PDK="$(PDK)" python3 $(TT_TOOL) --harden
-	PDK_ROOT="$(PDK_ROOT)" PDK="$(PDK)" python3 $(TT_TOOL) --create-tt-submission
-	cp ./tt-submission/tt_um_femto.v .
+all: user-config harden submission
+
+user-config:
+	podman run --rm \
+		-v "$(PROJECT_ROOT):/work:Z" \
+		-v "$(PDK_ROOT):/pdk:ro" \
+		-e PDK_ROOT=/pdk -e PDK="$(PDK)" \
+		-e HOME=/tmp/container-home \
+		-w /work "$(IMAGE)" \
+		python3 $(TT_TOOL) --create-user-config --no-docker
+
+harden:
+	podman run --rm \
+		-v "$(PROJECT_ROOT):/work:Z" \
+		-v "$(PDK_ROOT):/pdk:ro" \
+		-e PDK_ROOT=/pdk -e PDK="$(PDK)" \
+		-e HOME=/tmp/container-home \
+		-w /work "$(IMAGE)" \
+		python3 $(TT_TOOL) --harden --no-docker
+
+submission:
+	podman run --rm \
+		-v "$(PROJECT_ROOT):/work:Z" \
+		-v "$(PDK_ROOT):/pdk:ro" \
+		-e PDK_ROOT=/pdk -e PDK="$(PDK)" \
+		-e HOME=/tmp/container-home \
+		-w /work "$(IMAGE)" \
+		python3 $(TT_TOOL) --create-tt-submission --no-docker
+	cp ./tt_submission/tt_um_femto.v .
 
 clean:
 	rm -rf ./runs ./tt-submission
-
-.PHONY: all clean test
 
 test:
 	$(MAKE) -f test/Makefile.test
