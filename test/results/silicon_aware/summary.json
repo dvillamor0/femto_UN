@@ -1,0 +1,1187 @@
+[
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_reset_and_first_fetch",
+  "status": "PASS",
+  "time": 0.007,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_lui_auipc",
+  "status": "PASS",
+  "time": 0.013,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_auipc_addr_width_limitation",
+  "status": "PASS",
+  "time": 0.002,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_alu_reg_all_ops",
+  "status": "PASS",
+  "time": 2.518,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_alu_imm_all_ops",
+  "status": "PASS",
+  "time": 1.363,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_shifts_all_amounts",
+  "status": "PASS",
+  "time": 2.108,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_shift_rd_equals_rs",
+  "status": "PASS",
+  "time": 0.005,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_branches_all",
+  "status": "PASS",
+  "time": 0.969,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_branch_backward_loops",
+  "status": "PASS",
+  "time": 0.033,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_branch_far_offsets",
+  "status": "PASS",
+  "time": 0.004,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_jal",
+  "status": "PASS",
+  "time": 0.008,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_jalr",
+  "status": "PASS",
+  "time": 0.007,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_load_store_all_widths",
+  "status": "PASS",
+  "time": 0.041,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_store_widths_and_lanes",
+  "status": "PASS",
+  "time": 0.006,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_x0_hardwired_zero",
+  "status": "PASS",
+  "time": 0.004,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_rdcycle_and_system",
+  "status": "PASS",
+  "time": 0.006,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_cycles_per_instruction",
+  "status": "PASS",
+  "time": 0.027,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_program_fibonacci",
+  "status": "PASS",
+  "time": 0.078,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_random_vs_iss_no_wait",
+  "status": "PASS",
+  "time": 5.137,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_quark",
+  "level": "Unit",
+  "target": "FemtoRV32 Quark",
+  "name": "test_random_vs_iss_with_wait_states",
+  "status": "PASS",
+  "time": 7.262,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_reset_idle",
+  "status": "PASS",
+  "time": 0.029,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_sck_timing",
+  "status": "PASS",
+  "time": 0.066,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_read_protocol_and_data",
+  "status": "FAIL",
+  "time": 0.064,
+  "msg": "rdata=0x21b2c3d4 esperado 0xA1B2C3D4\nassert 565363668 == 2712847316",
+  "defects": [
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_write_protocol_and_data",
+  "status": "PASS",
+  "time": 0.078,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_write_then_read_roundtrip",
+  "status": "FAIL",
+  "time": 0.392,
+  "msg": "@0x0004: leído 0x72a74de4, escrito 0xf2a74de4\nassert 1923567076 == 4071050724",
+  "defects": [
+   "DEF-S1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_adjacent_words_do_not_overlap",
+  "status": "FAIL",
+  "time": 0.206,
+  "msg": "palabra 0: 0x4afebabe != 0xcafebabe\nassert 1258207934 == 3405691582",
+  "defects": [
+   "DEF-S1",
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_read_all_divider_phases",
+  "status": "FAIL",
+  "time": 1.099,
+  "msg": "13 fases fallaron:\n    fase k=2: cmd=0x03 addr=0x002008 pulsos=63 rdata=0x0b529b4a esperado=0x8b529b4a\n    fase k=4: cmd=0x03 addr=0x002010 pulsos=64 rdata=0xdeb561a4 esperado=0x5eb561a4\n    fase k=5: cmd=0x03 addr=0x002014 pulsos=64 rdata=0x6a7b5bf5 esperado=0xea7b5bf5\n    fase k=7: cmd=0x03 addr=0",
+  "defects": [
+   "DEF-S1",
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_write_all_divider_phases",
+  "status": "PASS",
+  "time": 0.971,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_spi_signal_timing",
+  "status": "FAIL",
+  "time": 0.93,
+  "msg": "1 violaciones de temporización:\n    trans 20: CS_N->1er SCK = 0 ns (< 1 ciclo)\nassert not ['trans 20: CS_N->1er SCK = 0 ns (< 1 ciclo)']",
+  "defects": [
+   "DEF-C1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_random_mixed_traffic",
+  "status": "FAIL",
+  "time": 2.329,
+  "msg": "10 errores de lectura:\n    op33 @0x0260: leído 0x030c71c2 esperado 0x830c71c2\n    op41 @0x01e0: leído 0x7f666589 esperado 0xff666589\n    op58 @0x01d0: leído 0x3b5d6b48 esperado 0xbb5d6b48\n    op60 @0x0260: leído 0x030c71c2 esperado 0x830c71c2\n    op62 @0x0030: leído 0xc21e7a60 esperado 0x421e7a60\n  ",
+  "defects": [
+   "DEF-S1",
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_miso_output_delay_tolerance",
+  "status": "FAIL",
+  "time": 0.335,
+  "msg": "tV=0 ns, fase 0: leído 0x4001d00d esperado 0xc001d00d\n    tV=0 ns, fase 7: leído 0x4706d70a esperado 0xc706d70a\n    tV=10 ns, fase 0: leído 0x4001d00d esperado 0xc001d00d\n    tV=10 ns, fase 7: leído 0x4706d70a esperado 0xc706d70a\n    tV=30 ns, fase 0: leído 0x6000e806 esperado 0xc001d00d\n    tV=30 n",
+  "defects": [
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiram",
+  "level": "Unit",
+  "target": "MappedSPIRAM",
+  "name": "test_reset_during_transaction",
+  "status": "PASS",
+  "time": 0.04,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_reset_idle",
+  "status": "PASS",
+  "time": 0.045,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_sck_period_and_duty",
+  "status": "PASS",
+  "time": 0.035,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_read_protocol_and_data",
+  "status": "FAIL",
+  "time": 0.047,
+  "msg": "pulsos de SCK = 65, esperados 64\nassert 65 == 64\n +  where 65 = len([10930.003, 10990.003, 11050.003, 11110.003, 11170.003, 11230.003, ...])",
+  "defects": [
+   "DEF-F2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_byte_order_little_endian",
+  "status": "PASS",
+  "time": 0.025,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_sequential_reads_distinct_words",
+  "status": "PASS",
+  "time": 0.625,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_command_and_address_integrity_all_phases",
+  "status": "PASS",
+  "time": 1.682,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_data_integrity_all_phases",
+  "status": "PASS",
+  "time": 1.804,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_address_range",
+  "status": "PASS",
+  "time": 0.079,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_busy_handshake",
+  "status": "PASS",
+  "time": 0.02,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_spi_signal_timing",
+  "status": "FAIL",
+  "time": 0.129,
+  "msg": "2 violaciones:\n    trans 2: CS_N->1er SCK = 0 ns\n    trans 5: CS_N->1er SCK = 0 ns\nassert not ['trans 2: CS_N->1er SCK = 0 ns', 'trans 5: CS_N->1er SCK = 0 ns']",
+  "defects": [
+   "DEF-C1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_miso_output_delay_tolerance",
+  "status": "PASS",
+  "time": 0.25,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_spiflash",
+  "level": "Unit",
+  "target": "MappedSPIFlash",
+  "name": "test_reset_during_transaction",
+  "status": "PASS",
+  "time": 0.021,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_reset_state",
+  "status": "PASS",
+  "time": 0.001,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_register_map_and_led",
+  "status": "PASS",
+  "time": 0.001,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_tx_frame_format",
+  "status": "PASS",
+  "time": 0.531,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_tx_baud_rate_vs_spec",
+  "status": "FAIL",
+  "time": 0.087,
+  "msg": "ciclos/bit = 208.0 vs 234.4 ideal: baud real a 27 MHz = 129808 (-11.3 %). Correcto sólo a 23.96 MHz\nassert 11.253333333333334 <= 3.0\n +  where 11.253333333333334 = abs(11.253333333333334)",
+  "defects": [
+   "DEF-U1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_tx_busy_and_ignored_write",
+  "status": "PASS",
+  "time": 0.162,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_rx_at_own_timebase",
+  "status": "PASS",
+  "time": 0.059,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_rx_from_ideal_115200_sender",
+  "status": "FAIL",
+  "time": 0.439,
+  "msg": "sólo 2/5 bytes recibidos correctamente a 115200 nominal (clk=27 MHz)\nassert 2 == 5\n +  where 5 = len((85, 167, 60, 255, 0))",
+  "defects": [
+   "DEF-U1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_rx_framing_error",
+  "status": "FAIL",
+  "time": 0.089,
+  "msg": "rx_error no se activó (estado=0x100)\nassert (256 & 128)",
+  "defects": [
+   "DEF-U2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "unit_uart",
+  "level": "Unit",
+  "target": "UART",
+  "name": "test_rx_back_to_back_frames",
+  "status": "FAIL",
+  "time": 0.112,
+  "msg": "se esperaba 0x22 (segundo byte), llegó 0x91\nassert 145 == 34",
+  "defects": [
+   "DEF-U2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i01_first_fetch_comes_from_flash_at_reset_address",
+  "status": "PASS",
+  "time": 0.067,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i00_first_instruction_after_reset_is_executed",
+  "status": "FAIL",
+  "time": 0.057,
+  "msg": "x5=0x1027c4d1: la instrucción de la dirección 0 NO se ejecutó (el 1er rstrb llega con la flash aún en START)\nassert 271041745 == 11\n +  where 271041745 = reg(5)\n +    where reg = <soc.Soc object at 0x7fa7d86d18e0>.reg",
+  "defects": [
+   "DEF-R1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i02_instruction_stream_integrity",
+  "status": "PASS",
+  "time": 1.105,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i03_address_decoder_map",
+  "status": "PASS",
+  "time": 0.606,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i04_cpu_spiram_word_roundtrip",
+  "status": "PASS",
+  "time": 1.572,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i05_cpu_spiram_full_32bit_words",
+  "status": "FAIL",
+  "time": 1.324,
+  "msg": "bit 31 corrupto en lecturas de SPI RAM: x12=0x00000000 esp 0x80000000; x13=0x7fffffff esp 0xffffffff\nassert not ['x12=0x00000000 esp 0x80000000', 'x13=0x7fffffff esp 0xffffffff']",
+  "defects": [
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i06_cpu_spiram_byte_halfword_access",
+  "status": "FAIL",
+  "time": 0.783,
+  "msg": "tras sb @+1: lw=0x11aa00aa esperado 0x1122aa44; lbu@+2=0xaa (esp 0x22) lhu@+2=0x00aa (esp 0x1122)\nassert 296353962 == 287484484",
+  "defects": [
+   "DEF-S3"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i07_busy_handshake_stalls_cpu",
+  "status": "PASS",
+  "time": 0.293,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i08_uart_write_path",
+  "status": "PASS",
+  "time": 0.617,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i09_uart_status_read_path",
+  "status": "PASS",
+  "time": 0.582,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i10_no_crosstalk_between_flash_and_ram",
+  "status": "PASS",
+  "time": 0.379,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i11_store_to_flash_space_is_ignored",
+  "status": "PASS",
+  "time": 0.17,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "integration",
+  "level": "Integration",
+  "target": "SoC",
+  "name": "test_i12_unmapped_addresses_alias_to_flash",
+  "status": "PASS",
+  "time": 0.201,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f01_alu_register_ops",
+  "status": "PASS",
+  "time": 1.874,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f02_alu_immediate_ops",
+  "status": "PASS",
+  "time": 1.937,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f03_shifts_all_forms",
+  "status": "PASS",
+  "time": 0.975,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f04_branches_taken_and_not_taken",
+  "status": "PASS",
+  "time": 1.585,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f05_jal_jalr_call_return",
+  "status": "PASS",
+  "time": 1.394,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f06_lui_auipc",
+  "status": "PASS",
+  "time": 0.182,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f07_loads_from_flash_all_widths",
+  "status": "PASS",
+  "time": 1.241,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f08_stack_recursion_in_spiram",
+  "status": "PASS",
+  "time": 6.227,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f09_ram_word_store_load_masked31",
+  "status": "PASS",
+  "time": 1.927,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f10_ram_subword_store_load",
+  "status": "FAIL",
+  "time": 1.13,
+  "msg": "lbu@3,lbu@0,lhu@4 = ('0x7f', '0x7f', '0x1234') (esperado ('0x7f','0x4','0x1234'))\nassert (127, 127, 4660) == (127, 4, 4660)",
+  "defects": [
+   "DEF-S3"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f11_uart_transmit_char",
+  "status": "PASS",
+  "time": 1.01,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f12_uart_receive_byte",
+  "status": "PASS",
+  "time": 1.069,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f13_led_control",
+  "status": "PASS",
+  "time": 0.262,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f14_rdcycle_monotonic_and_latency",
+  "status": "PASS",
+  "time": 0.381,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "functional",
+  "level": "Functional",
+  "target": "SoC",
+  "name": "test_f15_power_up_state_is_not_zero",
+  "status": "PASS",
+  "time": 0.17,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e01_hello_world",
+  "status": "PASS",
+  "time": 8.568,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e02_compute_and_print_fibonacci",
+  "status": "PASS",
+  "time": 5.808,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e03_uart_echo",
+  "status": "PASS",
+  "time": 6.692,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e04_led_blink",
+  "status": "PASS",
+  "time": 8.303,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e05_reset_restarts_program",
+  "status": "PASS",
+  "time": 19.36,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "e2e",
+  "level": "End-to-End",
+  "target": "Chip (pines)",
+  "name": "test_e06_isa_selftest",
+  "status": "FAIL",
+  "time": 28.402,
+  "msg": "grupos de instrucciones con FALLO: SB/SH (RAM), LB/LH/LBU/LHU (RAM)\nassert not ['SB/SH (RAM)', 'LB/LH/LBU/LHU (RAM)']",
+  "defects": [
+   "DEF-S3"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req01_boot_banner_within_budget",
+  "status": "PASS",
+  "time": 2.173,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req02_isa_selftest_all_groups_pass",
+  "status": "FAIL",
+  "time": 30.348,
+  "msg": "ISA PPPPPPPPFF: fallan SB/SH (RAM), LB/LH/LBU/LHU (RAM)\nassert not ['SB/SH (RAM)', 'LB/LH/LBU/LHU (RAM)']",
+  "defects": [
+   "DEF-S3"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req03_spiram_32bit_data_integrity",
+  "status": "FAIL",
+  "time": 7.128,
+  "msg": "3/8 palabras de 32 bits leídas incorrectamente de la SPI RAM\nassert 3 == 0",
+  "defects": [
+   "DEF-S2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req04_cpu_throughput",
+  "status": "PASS",
+  "time": 7.476,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req05a_uart_tx_baud_at_24mhz",
+  "status": "PASS",
+  "time": 2.11,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req05b_uart_tx_baud_at_27mhz",
+  "status": "FAIL",
+  "time": 2.022,
+  "msg": "baud=129808 (+12.68 %) con reloj 27 MHz\nassert 12.680288461538465 <= 3.0\n +  where 12.680288461538465 = abs(12.680288461538465)",
+  "defects": [
+   "DEF-U1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req06a_uart_rx_from_pc_24mhz_spaced",
+  "status": "PASS",
+  "time": 7.83,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req06b_uart_rx_back_to_back",
+  "status": "FAIL",
+  "time": 3.606,
+  "msg": "eco='¡'\nassert '¡' == 'AB'\n +  where '¡' = text()\n +    where text = <spimodels.UartMonitor object at 0x7efd6b696240>.text\n +      where <spimodels.UartMonitor object at 0x7efd6b696240> = <soc.Soc object at 0x7efd6b695310>.uart",
+  "defects": [
+   "DEF-U2"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req06c_uart_rx_from_pc_27mhz",
+  "status": "FAIL",
+  "time": 8.692,
+  "msg": "eco='²¶cr'\nassert '²¶cr' == 'RV32'\n +  where '²¶cr' = text()\n +    where text = <spimodels.UartMonitor object at 0x7efd6b6d12b0>.text\n +      where <spimodels.UartMonitor object at 0x7efd6b6d12b0> = <soc.Soc object at 0x7efd6b6d0770>.uart",
+  "defects": [
+   "DEF-U1"
+  ],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req07_power_up_robustness",
+  "status": "PASS",
+  "time": 11.166,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "acceptance",
+  "level": "Acceptance",
+  "target": "Chip (requisitos)",
+  "name": "test_req08_commercial_spi_memories",
+  "status": "FAIL",
+  "time": 0.065,
+  "msg": "la CPU no arranca: 1ª instrucción leída=0x3 esperada=0x93; comando visto por la flash=0x6 (esperado 0x3). Perfil de memoria: standard",
+  "defects": [
+   "DEF-F1",
+   "DEF-F2"
+  ],
+  "blocked": true
+ },
+ {
+  "key": "hw_emulator",
+  "level": "HW co-sim",
+  "target": "Chip + emulador RTL",
+  "name": "test_hw1_hello_with_rtl_memory_emulator",
+  "status": "PASS",
+  "time": 1.022,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "hw_emulator",
+  "level": "HW co-sim",
+  "target": "Chip + emulador RTL",
+  "name": "test_hw2_isa_selftest_with_rtl_memory_emulator",
+  "status": "PASS",
+  "time": 7.489,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "hw_emulator",
+  "level": "HW co-sim",
+  "target": "Chip + emulador RTL",
+  "name": "test_hw3_ram_contents_big_endian_in_emulator",
+  "status": "PASS",
+  "time": 4.414,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "hw_emulator",
+  "level": "HW co-sim",
+  "target": "Chip + emulador RTL",
+  "name": "test_hw4_phase_sweep_flash_and_ram",
+  "status": "PASS",
+  "time": 12.039,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ },
+ {
+  "key": "hw_emulator",
+  "level": "HW co-sim",
+  "target": "Chip + emulador RTL",
+  "name": "test_hw5_compiled_c_firmware",
+  "status": "PASS",
+  "time": 30.638,
+  "msg": "",
+  "defects": [],
+  "blocked": false
+ }
+]

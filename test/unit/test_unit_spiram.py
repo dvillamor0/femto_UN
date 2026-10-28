@@ -25,9 +25,14 @@ flanco de bajada).  Los tests verifican:
 Ejecutar:   make -f Makefile.spiram
 """
 
+import os
 import random
 
 import cocotb
+from spimodels import DirectPins, SpiTarget
+
+PROFILE = os.environ.get('MEM_PROFILE', 'standard')
+
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, Edge, FallingEdge, First, RisingEdge, Timer
 from cocotb.utils import get_sim_time
@@ -45,105 +50,12 @@ def geti(sig, default=None):
 
 
 # --------------------------------------------------------------------------
-# Esclavo SPI modo 0 (RAM serie)
-# --------------------------------------------------------------------------
-class SpiRamSlave:
-    READ, WRITE = 0x03, 0x02
-
-    def __init__(self, dut, size=1 << 17, miso_delay_ns=0.0):
-        self.dut = dut
-        self.mem = bytearray(size)
-        self.miso_delay_ns = miso_delay_ns
-        self.transactions = []         # una entrada por cada CS_N bajo->alto
-        self.cur = None
-        self._mosi_changes = []
-        self.violations = []
-
-    def _t(self):
-        return get_sim_time("ns")
-
-    async def _drive_miso(self, bit):
-        if self.miso_delay_ns:
-            await Timer(self.miso_delay_ns, unit="ns")
-        self.dut.MISO.value = bit
-
-    async def run(self):
-        dut = self.dut
-        dut.MISO.value = 0
-        await Timer(1, unit="ns")
-        prev_clk, prev_cs = geti(dut.CLK, 0), geti(dut.CS_N, 1)
-        cocotb.start_soon(self._watch_mosi())
-        while True:
-            await First(Edge(dut.CLK), Edge(dut.CS_N))
-            await Timer(1, unit="ps")               # deja asentar cambios simultáneos
-            clk, cs = geti(dut.CLK, 0), geti(dut.CS_N, 1)
-            now = self._t()
-            if cs != prev_cs:
-                if cs == 0:                          # CS_N activo
-                    self.cur = dict(t_cs_fall=now, rises=[], falls=[], cmd=0, addr=0, bits=[],
-                                    wdata=bytearray(), rbits=[], wshift=0, wcount=0, rcount=0,
-                                    t_first_rise=None, t_last_rise=None, mosi_t=[], t_cs_rise=None)
-                    self._mosi_changes.clear()
-                else:                                # CS_N inactivo -> fin de transacción
-                    c = self.cur
-                    if c is not None:
-                        c["t_cs_rise"] = now
-                        c["mosi_t"] = list(self._mosi_changes)
-                        self.transactions.append(c)
-                    self.cur = None
-                    dut.MISO.value = 0
-            if clk != prev_clk and self.cur is not None and cs == 0:
-                c = self.cur
-                if clk == 1:                         # flanco de subida: muestrear MOSI
-                    bit = geti(dut.MOSI, 0)
-                    n = len(c["rises"])
-                    c["rises"].append(now)
-                    c["bits"].append(bit)
-                    c["t_first_rise"] = c["t_first_rise"] or now
-                    c["t_last_rise"] = now
-                    if n < 8:
-                        c["cmd"] = (c["cmd"] << 1) | bit
-                    elif n < 32:
-                        c["addr"] = (c["addr"] << 1) | bit
-                    elif c["cmd"] == self.WRITE:
-                        c["wshift"] = (c["wshift"] << 1) | bit
-                        c["wcount"] += 1
-                        if c["wcount"] % 8 == 0:
-                            a = (c["addr"] + c["wcount"] // 8 - 1) % len(self.mem)
-                            self.mem[a] = c["wshift"] & 0xFF
-                            c["wdata"].append(c["wshift"] & 0xFF)
-                else:                                # flanco de bajada: presentar siguiente bit
-                    c["falls"].append(now)
-                    if c["cmd"] == self.READ and len(c["rises"]) >= 32:
-                        k = c["rcount"]
-                        a = (c["addr"] + k // 8) % len(self.mem)
-                        bit = (self.mem[a] >> (7 - (k % 8))) & 1
-                        c["rbits"].append(bit)
-                        c["rcount"] += 1
-                        cocotb.start_soon(self._drive_miso(bit))
-            prev_clk, prev_cs = clk, cs
-
-    async def _watch_mosi(self):
-        while True:
-            await Edge(self.dut.MOSI)
-            if self.cur is not None:
-                self._mosi_changes.append(self._t())
-
-    # utilidades
-    def set_word_be(self, addr, value):
-        self.mem[addr:addr + 4] = value.to_bytes(4, "big")
-
-    def get_word_be(self, addr):
-        return int.from_bytes(self.mem[addr:addr + 4], "big")
-
-
-# --------------------------------------------------------------------------
 # Driver (hace de CPU: strobe de 1 ciclo y espera a que baje busy)
 # --------------------------------------------------------------------------
 class Bench:
     def __init__(self, dut, miso_delay_ns=0.0):
         self.dut = dut
-        self.slave = SpiRamSlave(dut, miso_delay_ns=miso_delay_ns)
+        self.slave = SpiTarget(DirectPins(dut), kind='ram', profile=PROFILE, miso_delay_ns=miso_delay_ns)
 
     async def start(self, reset_cycles=6):
         dut = self.dut

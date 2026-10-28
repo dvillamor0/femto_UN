@@ -1,0 +1,26 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1793018573" />
+    <testcase name="test_i01_first_fetch_comes_from_flash_at_reset_address" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="42" time="0.026022672653198242" sim_time_ns="8900.0" ratio_time="342009.4514737006" />
+    <testcase name="test_i00_first_instruction_after_reset_is_executed" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="55" time="0.022990942001342773" sim_time_ns="8920.0" ratio_time="387978.88313923945">
+      <failure error_type="AssertionError" error_msg="x5=0x1027c4d1: la instrucción de la dirección 0 NO se ejecutó (el 1er rstrb llega con la flash aún en START)&#10;assert 271041745 == 11&#10; +  where 271041745 = reg(5)&#10; +    where reg = &lt;soc.Soc object at 0x7fbb27677b10&gt;.reg" />
+    </testcase>
+    <testcase name="test_i02_instruction_stream_integrity" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="66" time="0.40299367904663086" sim_time_ns="161020.0" ratio_time="399559.61686775787" />
+    <testcase name="test_i03_address_decoder_map" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="86" time="0.2016158103942871" sim_time_ns="73640.0" ratio_time="365249.13326979155" />
+    <testcase name="test_i04_cpu_spiram_word_roundtrip" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="107" time="0.4527125358581543" sim_time_ns="224000.00000000003" ratio_time="494795.222702171">
+      <failure error_type="AssertionError" error_msg="lw #0: x12=0x00000000 (bits[30:0]) != 0x00000001&#10;assert (0 &amp; 2147483647) == 1&#10; +  where 0 = reg((12 + 0))&#10; +    where reg = &lt;soc.Soc object at 0x7fbb276aa3f0&gt;.reg" />
+    </testcase>
+    <testcase name="test_i05_cpu_spiram_full_32bit_words" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="124" time="0.36216068267822266" sim_time_ns="180000.0" ratio_time="497016.95575808483">
+      <failure error_type="AssertionError" error_msg="bit 31 corrupto en lecturas de SPI RAM: x12=0x00000000 esp 0x80000000; x13=0x00000000 esp 0xffffffff; x14=0x00000000 esp 0xdeadbeef; x15=0x00000000 esp 0x80000001&#10;assert not ['x12=0x00000000 esp 0x80000000', 'x13=0x00000000 esp 0xffffffff', 'x14=0x00000000 esp 0xdeadbeef', 'x15=0x00000000 esp 0x80000001']" />
+    </testcase>
+    <testcase name="test_i06_cpu_spiram_byte_halfword_access" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="140" time="0.23206591606140137" sim_time_ns="114220.0" ratio_time="492187.74535498355">
+      <failure error_type="AssertionError" error_msg="tras sb @+1: lw=0x00000000 esperado 0x1122aa44; lbu@+2=0x00 (esp 0x22) lhu@+2=0x0000 (esp 0x1122)&#10;assert 0 == 287484484" />
+    </testcase>
+    <testcase name="test_i07_busy_handshake_stalls_cpu" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="157" time="0.09903669357299805" sim_time_ns="38880.0" ratio_time="392581.76537711546" />
+    <testcase name="test_i08_uart_write_path" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="176" time="0.23472070693969727" sim_time_ns="96280.0" ratio_time="410189.6302857317" />
+    <testcase name="test_i09_uart_status_read_path" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="188" time="0.20920896530151367" sim_time_ns="83220.0" ratio_time="397784.1001223951" />
+    <testcase name="test_i10_no_crosstalk_between_flash_and_ram" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="205" time="0.11083579063415527" sim_time_ns="48880.0" ratio_time="441012.77863702166" />
+    <testcase name="test_i11_store_to_flash_space_is_ignored" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="225" time="0.06437301635742188" sim_time_ns="24539.999999999884" ratio_time="381215.63022222044" />
+    <testcase name="test_i12_unmapped_addresses_alias_to_flash" classname="test_integration" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/integration/test_integration.py" lineno="237" time="0.07471609115600586" sim_time_ns="28340.0" ratio_time="379302.49778225936" />
+  </testsuite>
+</testsuites>

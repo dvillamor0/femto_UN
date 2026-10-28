@@ -43,7 +43,7 @@ clean:
 	rm -rf ./runs ./tt-submission
 
 test:
-	$(MAKE) -f test/Makefile.test
+	$(MAKE) -f test/Makefile
 
 version:
 	which iverilog
