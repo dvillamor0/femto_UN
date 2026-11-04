@@ -42,8 +42,13 @@ submission:
 clean:
 	rm -rf ./runs ./tt-submission
 
+.PHONY: test
+
 test:
-	$(MAKE) -f test/Makefile
+	$(MAKE) -C test $(filter-out test,$(MAKECMDGOALS))
+
+%:
+	@:
 
 version:
 	which iverilog
