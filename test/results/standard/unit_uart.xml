@@ -1,0 +1,18 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1793020921" />
+    <testcase name="test_reset_state" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="96" time="0.0005743503570556641" sim_time_ns="180.0" ratio_time="313397.55915317556" />
+    <testcase name="test_register_map_and_led" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="105" time="0.0006666183471679688" sim_time_ns="480.0" ratio_time="720052.1888412017" />
+    <testcase name="test_tx_frame_format" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="118" time="0.3578813076019287" sim_time_ns="353680.0" ratio_time="988260.6117931093" />
+    <testcase name="test_tx_baud_rate_vs_spec" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="134" time="0.0641484260559082" sim_time_ns="62800.0" ratio_time="978979.5925042185" />
+    <testcase name="test_tx_busy_and_ignored_write" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="150" time="0.1215219497680664" sim_time_ns="122979.99999999994" ratio_time="1011998.2458701192" />
+    <testcase name="test_rx_at_own_timebase" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="173" time="0.049813032150268555" sim_time_ns="50040.0" ratio_time="1004556.3949820754" />
+    <testcase name="test_rx_from_ideal_115200_sender" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="188" time="0.2770223617553711" sim_time_ns="279260.0" ratio_time="1008077.4643261647" />
+    <testcase name="test_rx_framing_error" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="215" time="0.050841331481933594" sim_time_ns="49800.0" ratio_time="979518.0131680141">
+      <failure error_type="AssertionError" error_msg="rx_error no se activó (estado=0x100)&#10;assert (256 &amp; 128)" />
+    </testcase>
+    <testcase name="test_rx_back_to_back_frames" classname="test_unit_uart" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/verif/unit/test_unit_uart.py" lineno="226" time="0.09324836730957031" sim_time_ns="93460.0" ratio_time="1002269.5592055472">
+      <failure error_type="AssertionError" error_msg="se esperaba 0x22 (segundo byte), llegó 0x91&#10;assert 145 == 34" />
+    </testcase>
+  </testsuite>
+</testsuites>

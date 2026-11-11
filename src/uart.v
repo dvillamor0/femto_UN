@@ -3,7 +3,7 @@
 // File Name   : uart.v
 //-----------------------------------------------------
 module uart #(
-	parameter          freq_hz = 25000000,
+	parameter          freq_hz = 24000000,
 	parameter          baud    = 115200
 ) (
 	input              reset,
