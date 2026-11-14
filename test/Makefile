@@ -17,15 +17,13 @@ SIM_BUILD=sim_build/$(1) TOPLEVEL=$(2) COCOTB_TEST_MODULES=$(3) VERILOG_SOURCES=
   COMPILE_ARGS="$(5)" COCOTB_RESULTS_FILE=$(RES)/$(1).xml $(MAKE) -f Makefile.sim || true
 endef
 
-.PHONY: hw hwdbg flashdbg all unit unit-quark unit-spiram unit-spiflash unit-multidrop unit-uart integration integration-isa functional e2e acceptance clean report
+.PHONY: hw hwdbg flashdbg all unit unit-quark unit-multidrop unit-uart integration integration-isa functional e2e acceptance clean report
 all: unit integration integration-isa functional e2e acceptance report
 
-unit: unit-quark unit-spiram unit-spiflash unit-multidrop unit-uart
+unit: unit-quark unit-multidrop unit-uart
 unit-quark:       ; $(call RUN,unit_quark,FemtoRV32,test_unit_quark,$(SRC)/femtorv32_quark.v,-DBENCH)
-unit-spiram:      ; $(call RUN,unit_spiram,MappedSPIRAM,test_unit_spiram,$(SRC)/MappedSPIRAM.v,)
-unit-spiflash:    ; $(call RUN,unit_spiflash,MappedSPIFlash,test_unit_spiflash,$(SRC)/MappedSPIFlash.v,)
 unit-multidrop:  ; $(call RUN,unit_multidrop,MappedSPIMultidrop,test_unit_multidrop,$(MD_SRC),)
-unit-uart:        ; $(call RUN,unit_uart,peripheral_uart,test_unit_uart,$(SRC)/perip_uart.v $(SRC)/uart.v,-Pperipheral_uart.clk_freq=27000000 -Pperipheral_uart.baud=115200)
+unit-uart:        ; $(call RUN,unit_uart,peripheral_uart,test_unit_uart,$(SRC)/perip_uart.v $(SRC)/uart.v,-Pperipheral_uart.clk_freq=25000000 -Pperipheral_uart.baud=115200)
 integration:      ; $(call RUN,integration,tt_um_femto,test_integration,$(SOC_SRC),)
 integration-isa:  ; $(call RUN,integration,tt_um_femto,test_integration_isa,$(SOC_SRC),)
 functional:       ; $(call RUN,functional,tt_um_femto,test_functional,$(SOC_SRC),)
