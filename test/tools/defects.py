@@ -76,7 +76,8 @@ TEST_DEFECTS = {
     },
 }
 LEVELS = [("unit_quark", "Unit", "FemtoRV32 Quark"), ("unit_spiram", "Unit", "MappedSPIRAM"),
-          ("unit_spiflash", "Unit", "MappedSPIFlash"), ("unit_uart", "Unit", "UART"),
+          ("unit_spiflash", "Unit", "MappedSPIFlash"), ("unit_multidrop", "Unit", "SPI Multidrop"),
+          ("unit_uart", "Unit", "UART"),
           ("integration", "Integration", "SoC"), ("functional", "Functional", "SoC"),
           ("e2e", "End-to-End", "Chip (pines)"), ("acceptance", "Acceptance", "Chip (requisitos)"),
           ("hw_emulator", "HW co-sim", "Chip + emulador RTL")]

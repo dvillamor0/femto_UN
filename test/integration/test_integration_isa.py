@@ -17,6 +17,7 @@ o hacia la SPI RAM. Cada prueba comprueba, contra el ISS de referencia (rvlib.IS
 Los programas empiezan con un NOP (regla R1: la instrucción de la dirección 0 se pierde, DEF-R1).
 """
 import cocotb
+import soc as soc_lib
 from cocotb.triggers import FallingEdge
 
 from rvlib import *            # noqa: F401,F403
@@ -314,7 +315,7 @@ for _op in SH_PAIRS:
 
 
 # ============================================================================ sistema
-@isa_test("test_isa_rdcycle", "RDCYCLE: contador de ciclos monótono; 10 instrucciones desde la flash cuestan ~198 ciclos cada una.")
+@isa_test("test_isa_rdcycle", "RDCYCLE: contador de ciclos monótono; 10 instrucciones desde la flash (QSPI) cuestan ~114 ciclos cada una.")
 async def _rdcycle(dut):
     p = new_prog(); p.emit(RDCYCLE(5))
     for _ in range(10):
@@ -324,8 +325,8 @@ async def _rdcycle(dut):
     await soc.run_to_halt(h, 300_000)
     d1, d2 = soc.reg(8), soc.reg(10)
     dut._log.info(f"RDCYCLE: Δ(11 instr)={d1}  Δ(2 instr)={d2}  -> {d1 / 11:.1f} ciclos/instrucción")
-    assert d1 is not None and 180 * 11 <= d1 <= 215 * 11, f"Δcycles = {d1}"
-    assert d2 is not None and 180 * 2 <= d2 <= 215 * 2, f"Δcycles = {d2}"
+    assert d1 is not None and soc_lib.FETCH_CYCLES_MIN * 11 <= d1 <= soc_lib.FETCH_CYCLES_MAX * 11, f"Δcycles = {d1}"
+    assert d2 is not None and soc_lib.FETCH_CYCLES_MIN * 2 <= d2 <= soc_lib.FETCH_CYCLES_MAX * 2, f"Δcycles = {d2}"
     assert soc.reg(6) != soc.reg(5) and soc.reg(9) != soc.reg(6)
 
 

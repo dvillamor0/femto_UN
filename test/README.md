@@ -10,7 +10,7 @@ Las fuentes se leen de `../src` (colocar esta carpeta `verif/` en la raíz del r
 
 ## Uso
 ```
-make unit          # Quark (20) + SPI RAM (12) + SPI Flash (12) + UART (9)
+make unit          # Quark (20) + SPI RAM (12) + SPI Flash (12) + SPI Multidrop (16) + UART (9)
 make integration   # 13        make functional  # 15      make e2e  # 6      make acceptance  # 11
 make hw            # co-simulación del chip con el emulador RTL silicon_spi_mem.v (5)
 make report        # tabla por nivel (results/<perfil>/summary.json)
@@ -36,3 +36,14 @@ MEM_PROFILE=silicon_aware  make all   # emulador de memoria (modelo Python)
 `lib/` ensamblador RV32I, ISS, modelos SPI, banco SoC · `unit/ integration/ functional/ e2e/ acceptance/` pruebas ·
 `hw/` emulador RTL + co-simulación · `firmware/` crt0, linker, ejemplo C · `tools/` catálogo de defectos e informe ·
 `future/` propuesta de MappedSPIRAM corregido (NO aplicada al silicio).
+
+## Cambio: flash + RAM -> MappedSPIMultidrop (controlador único)
+`femto.v` ya no instancia `MappedSPIFlash`/`MappedSPIRAM`: instancia solo `MappedSPIMultidrop` (un único archivo, que reúne
+la antigua `MappedQSPIFlash` y el top multi-drop; estructura: entrada combinacional / control secuencial / salida combinacional).
+* **flash**: únicamente Quad SPI, Fast Read Quad I/O `0xEB` (8 opcode + 6 dirección + 2 modo + 4 dummy + 8 datos = 28 ciclos de SCK).
+* **RAM**: únicamente SPI estándar, `0x03` lectura / `0x02` escritura (+ `0x00` + dirección de 16 bits + 32 bits = 64 ciclos de SCK).
+* Pines: `uo[0]=SCK`, `uo[1]=CS_N flash`, `uo[2]=CS_N RAM`, `uio[3:0]=IO0..IO3` (IO0=MOSI, IO1=MISO).
+* Pruebas: `unit/test_unit_multidrop.py` (20, nuevas) con el modelo `QspiFlashTarget` de `lib/spimodels.py`; `lib/soc.py` y
+  `SocPins` adaptados al bus compartido. Los perfiles `standard`/`silicon_aware` ya no aplican al SoC (no hay defectos de silicio de flash/RAM).
+* `make hw` (emulador `silicon_spi_mem.v`) asume los pines antiguos y ya no aplica. Los unit de `MappedSPIFlash`/`MappedSPIRAM`
+  se conservan como referencia del módulo antiguo (los archivos siguen en `src/` pero ya no están en `info.yaml`).
