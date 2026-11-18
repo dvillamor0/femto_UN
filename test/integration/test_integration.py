@@ -48,7 +48,7 @@ async def test_i01_first_fetch_comes_from_flash_at_reset_address(dut):
     await soc.run_to_halt(h, 20000)
     f = mon.events[0]
     assert f["addr"] == 0 and f["cs"] == 0b0000001, f"primer acceso: addr=0x{f['addr']:x} cs={f['cs']:07b}"
-    assert soc.flash.transactions[0]["cmd"] == 0x03
+    assert soc.flash.transactions[0]["cmd"] == 0xEB
     assert soc.reg(5) == 7
 
 
@@ -208,17 +208,21 @@ async def test_i10_no_crosstalk_between_flash_and_ram(dut):
     p = new_prog(); p.emit(li(10, 0x10000), li(11, 9), S("sw", 11, 10, 0), L("lw", 12, 10, 0))
     h = halt_loop(p)
     soc = await boot(dut, p)
-    both = []
+    both, flash_act, ram_act = [], [], []
 
-    async def watch():
+    async def watch():                    # CS_N flash = uo_out[1], CS_N RAM = uo_out[2] (bus multi-drop)
         while True:
             await FallingEdge(dut.clk)
             v = geti(dut.uo_out, 0)
-            if not (v >> 2) & 1 and not (v >> 3) & 1:
+            cs_f, cs_r = not (v >> 1) & 1, not (v >> 2) & 1
+            if cs_f and cs_r:
                 both.append(cocotb.utils.get_sim_time("ns"))
+            flash_act.append(cs_f)
+            ram_act.append(cs_r)
     cocotb.start_soon(watch())
     await soc.run_to_halt(h, 600000)
     assert not both, f"CS_N de flash y RAM simultáneamente bajos en {len(both)} muestras"
+    assert any(flash_act) and any(ram_act), "el test no vio actividad en ambos CS_N (pines mal leídos)"
     assert len(soc.ram.transactions) >= 2
 
 
@@ -230,7 +234,7 @@ async def test_i11_store_to_flash_space_is_ignored(dut):
     soc = await boot(dut, p)
     await soc.run_to_halt(h, 200000)
     assert soc.reg(5) == 77
-    assert all(t["cmd"] == 0x03 for t in soc.flash.transactions), "la flash recibió un comando distinto de READ"
+    assert all(t["cmd"] == 0xEB for t in soc.flash.transactions), "la flash recibió un comando distinto de Fast Read Quad I/O (0xEB)"
     assert not soc.ram.transactions
 
 
