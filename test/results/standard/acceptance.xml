@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites name="cocotb tests"><testsuite name="test_acceptance" errors="0" failures="11" skipped="0" tests="11" time="823.684" timestamp="2026-11-14T01:12:27.327602+00:00" hostname="vm"><testcase classname="test_acceptance" name="test_req01_boot_banner_within_budget" time="13.876"><failure message="sin banner en 50 000 ciclos (UART='¯«\x8a')&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 39, in test_req01_boot_banner_within_budget
+    assert used is not None, f"sin banner en 50 000 ciclos (UART={soc.uart.text()!r})"
+AssertionError: sin banner en 50 000 ciclos (UART='¯«\x8a')
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="34" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="0.0" /><property name="sim_time_stop" value="1004820.0" /><property name="sim_time_duration" value="1004820.0" /><property name="sim_time_ratio" value="72415.84870346934" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req02_isa_selftest_all_groups_pass" time="348.674"><failure message="©³¡°°°°°°°°¦¦&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 48, in test_req02_isa_selftest_all_groups_pass
+    assert await soc.run_until(lambda: soc.uart.text().count("\n") &gt;= 1, 2_500_000) is not None, soc.uart.text()
+AssertionError: ©³¡°°°°°°°°¦¦
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="43" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="1004820.001" /><property name="sim_time_stop" value="51009660.001" /><property name="sim_time_duration" value="50004840.0" /><property name="sim_time_ratio" value="143414.3102998528" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req03_spiram_32bit_data_integrity" time="376.159"><failure message="­¥­&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 69, in test_req03_spiram_32bit_data_integrity
+    assert used is not None, soc.uart.text()
+AssertionError: ­¥­
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="54" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="51009660.002" /><property name="sim_time_stop" value="111014500.002" /><property name="sim_time_duration" value="60004840.00000001" /><property name="sim_time_ratio" value="159519.85050244626" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req04_cpu_throughput" time="49.416"><failure message="£¹£¦¡&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 87, in test_req04_cpu_throughput
+    assert used is not None, soc.uart.text()
+AssertionError: £¹£¦¡
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="74" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="111014500.003" /><property name="sim_time_stop" value="119019340.003" /><property name="sim_time_duration" value="8004840.0" /><property name="sim_time_ratio" value="161987.40406858822" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req05a_uart_tx_baud_at_24mhz" time="1.690"><failure message="baud=125000 (+8.51 %)&#10;assert 8.506944444444445 &lt;= 3.0&#10; +  where 8.506944444444445 = abs(8.506944444444445)" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 125, in test_req05a_uart_tx_baud_at_24mhz
+    assert abs(err) &lt;= 3.0, f"baud={baud:.0f} ({err:+.2f} %)"
+AssertionError: baud=125000 (+8.51 %)
+assert 8.506944444444445 &lt;= 3.0
+ +  where 8.506944444444445 = abs(8.506944444444445)
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="115" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="119019340.004" /><property name="sim_time_stop" value="119304180.004" /><property name="sim_time_duration" value="284840.0" /><property name="sim_time_ratio" value="168513.00765861972" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req05b_uart_tx_baud_at_27mhz" time="1.740"><failure message="baud=140625 (+22.07 %) con reloj 27 MHz&#10;assert 22.0703125 &lt;= 3.0&#10; +  where 22.0703125 = abs(22.0703125)" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 138, in test_req05b_uart_tx_baud_at_27mhz
+    assert abs(err) &lt;= 3.0, f"baud={baud:.0f} ({err:+.2f} %) con reloj 27 MHz"
+AssertionError: baud=140625 (+22.07 %) con reloj 27 MHz
+assert 22.0703125 &lt;= 3.0
+ +  where 22.0703125 = abs(22.0703125)
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="128" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="119304180.005" /><property name="sim_time_stop" value="119589020.005" /><property name="sim_time_duration" value="284840.0" /><property name="sim_time_ratio" value="163660.20972975466" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req06a_uart_rx_from_pc_24mhz_spaced" time="7.139"><failure message="eco='òö\x93\x92'&#10;assert 'òö\x93\x92' == 'RV32'&#10; +  where 'òö\x93\x92' = text()&#10; +    where text = &lt;spimodels.UartMonitor object at 0x7f50520646b0&gt;.text&#10; +      where &lt;spimodels.UartMonitor object at 0x7f50520646b0&gt; = &lt;soc.Soc object at 0x7f50520645a0&gt;.uart" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 168, in test_req06a_uart_rx_from_pc_24mhz_spaced
+    assert soc.uart.text() == "RV32", f"eco={soc.uart.text()!r}"
+AssertionError: eco='òö\x93\x92'
+assert 'òö\x93\x92' == 'RV32'
+ +  where 'òö\x93\x92' = text()
+ +    where text = &lt;spimodels.UartMonitor object at 0x7f50520646b0&gt;.text
+ +      where &lt;spimodels.UartMonitor object at 0x7f50520646b0&gt; = &lt;soc.Soc object at 0x7f50520645a0&gt;.uart
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="162" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="119589020.006" /><property name="sim_time_stop" value="120780500.006" /><property name="sim_time_duration" value="1191480.0" /><property name="sim_time_ratio" value="166908.5393642325" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req06b_uart_rx_back_to_back" time="3.414"><failure message="eco='áà'&#10;assert 'áà' == 'AB'&#10; +  where 'áà' = text()&#10; +    where text = &lt;spimodels.UartMonitor object at 0x7f5052065480&gt;.text&#10; +      where &lt;spimodels.UartMonitor object at 0x7f5052065480&gt; = &lt;soc.Soc object at 0x7f5052065260&gt;.uart" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 178, in test_req06b_uart_rx_back_to_back
+    assert soc.uart.text() == "AB", f"eco={soc.uart.text()!r}"
+AssertionError: eco='áà'
+assert 'áà' == 'AB'
+ +  where 'áà' = text()
+ +    where text = &lt;spimodels.UartMonitor object at 0x7f5052065480&gt;.text
+ +      where &lt;spimodels.UartMonitor object at 0x7f5052065480&gt; = &lt;soc.Soc object at 0x7f5052065260&gt;.uart
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="171" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="120780500.007" /><property name="sim_time_stop" value="121328660.007" /><property name="sim_time_duration" value="548160.0" /><property name="sim_time_ratio" value="160558.03341076025" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req06c_uart_rx_from_pc_27mhz" time="7.209"><failure message="eco=''&#10;assert '' == 'RV32'&#10; +  where '' = text()&#10; +    where text = &lt;spimodels.UartMonitor object at 0x7f5051f97b50&gt;.text&#10; +      where &lt;spimodels.UartMonitor object at 0x7f5051f97b50&gt; = &lt;soc.Soc object at 0x7f5051f97850&gt;.uart" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 187, in test_req06c_uart_rx_from_pc_27mhz
+    assert soc.uart.text() == "RV32", f"eco={soc.uart.text()!r}"
+AssertionError: eco=''
+assert '' == 'RV32'
+ +  where '' = text()
+ +    where text = &lt;spimodels.UartMonitor object at 0x7f5051f97b50&gt;.text
+ +      where &lt;spimodels.UartMonitor object at 0x7f5051f97b50&gt; = &lt;soc.Soc object at 0x7f5051f97850&gt;.uart
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="181" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="121328660.008" /><property name="sim_time_stop" value="122541020.008" /><property name="sim_time_duration" value="1212360.0" /><property name="sim_time_ratio" value="168172.54229515643" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req07_power_up_robustness" time="7.210"><failure message="seed=101: UART='¯«\x8a'&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 196, in test_req07_power_up_robustness
+    assert used is not None, f"seed={seed}: UART={soc.uart.text()!r}"
+AssertionError: seed=101: UART='¯«\x8a'
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="190" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="122541020.009" /><property name="sim_time_stop" value="123745860.009" /><property name="sim_time_duration" value="1204840.0" /><property name="sim_time_ratio" value="167112.19170793868" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase><testcase classname="test_acceptance" name="test_req08_commercial_spi_memories" time="7.156"><failure message="UART='¯«\x8a'&#10;assert None is not None" type="AssertionError">Traceback (most recent call last):
+  File "/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py", line 205, in test_req08_commercial_spi_memories
+    assert used is not None, f"UART={soc.uart.text()!r}"
+AssertionError: UART='¯«\x8a'
+assert None is not None
+</failure><properties><property name="cocotb" value="True" /><property name="random_seed" value="1794618733" /><property name="file" value="/tmp/claude-0/-home-claude/115880c0-2caa-5573-83e8-945725a06f55/scratchpad/work/femto_UN/test/acceptance/test_acceptance.py" /><property name="line" value="199" /><property name="sim_time_unit" value="ns" /><property name="sim_time_start" value="123745860.01" /><property name="sim_time_stop" value="124950700.01" /><property name="sim_time_duration" value="1204840.0" /><property name="sim_time_ratio" value="168359.10724476245" /></properties><system-err>Test failed with COCOTB_RANDOM_SEED=1794618733
+</system-err></testcase></testsuite></testsuites>

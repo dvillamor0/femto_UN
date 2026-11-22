@@ -18,8 +18,7 @@ project:
   # Don't forget to also update `PROJECT_SOURCES` in test/Makefile.
   source_files:
     - "femto.v"
-    - "MappedSPIRAM.v"
-    - "MappedSPIFlash.v"
+    - "MappedSPIMultidrop.v"
     - "perip_uart.v"
     - "uart.v"
     - "femtorv32_quark.v"
@@ -29,8 +28,8 @@ project:
 # This section is for the datasheet/website. Use descriptive names (e.g., RX, TX, MOSI, SCL, SEG_A, etc.).
 pinout:
   # Inputs
-  ui[0]: "spi_miso"
-  ui[1]: "spi_miso_ram"
+  ui[0]: ""
+  ui[1]: ""
   ui[2]: "RXD"
   ui[3]: ""
   ui[4]: ""
@@ -39,20 +38,20 @@ pinout:
   ui[7]: ""
 
   # Outputs
-  uo[0]: "spi_mosi"
-  uo[1]: "spi_mosi_ram"
-  uo[2]: "spi_cs_n"
-  uo[3]: "spi_cs_n_ram"
-  uo[4]: "spi_clk_ram"
-  uo[5]: "spi_clk"
+  uo[0]: "spi_sck"
+  uo[1]: "spi_cs_flash_n"
+  uo[2]: "spi_cs_ram_n"
+  uo[3]: ""
+  uo[4]: ""
+  uo[5]: ""
   uo[6]: "LEDS"
   uo[7]: "TXD"
 
-  # Bidirectional pins
-  uio[0]: ""
-  uio[1]: ""
-  uio[2]: ""
-  uio[3]: ""
+  # Bidirectional pins (bus SPI multi-drop flash + RAM)
+  uio[0]: "spi_io0 (MOSI)"
+  uio[1]: "spi_io1 (MISO)"
+  uio[2]: "spi_io2"
+  uio[3]: "spi_io3"
   uio[4]: ""
   uio[5]: ""
   uio[6]: ""

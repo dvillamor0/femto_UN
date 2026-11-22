@@ -47,25 +47,40 @@ class DirectPins:
         self._miso.value = bit
 
 
-class SocPins:
-    """Pines SPI como bits de uo_out / ui_in del wrapper tt_um_femto."""
+def getm(sig, default=0):
+    """int(sig) tratando bits X/Z como 0 (p. ej. sh sin reset en el controlador multidrop)."""
+    try:
+        return int(sig.value)
+    except (ValueError, TypeError):
+        s = str(sig.value).lower().replace("x", "0").replace("z", "0")
+        try:
+            return int(s, 2)
+        except ValueError:
+            return default
 
-    # (sck, cs_n, mosi) en uo_out y bit de MISO en ui_in
-    FLASH = dict(sck=5, cs=2, mosi=0, miso=0)
-    RAM = dict(sck=4, cs=3, mosi=1, miso=1)
+
+class SocPins:
+    """Pines SPI del wrapper tt_um_femto con bus multi-drop (flash QSPI + RAM SPI comparten SCK e IO0..IO3).
+
+    uo_out[0]=SCK  uo_out[1]=CS_N flash  uo_out[2]=CS_N RAM  uo_out[6]=LED  uo_out[7]=TXD
+    uio[0]=IO0 (MOSI)  uio[1]=IO1 (MISO)  uio[2]=IO2  uio[3]=IO3   (uio_out / uio_oe / uio_in)
+    ui_in[2]=RXD
+    El tercer valor de read() es el nibble IO3..IO0 para la flash (quad) y IO0 (MOSI) para la RAM.
+    """
 
     def __init__(self, soc, which):
-        self.soc = soc
-        self.m = self.FLASH if which == "flash" else self.RAM
-        self.triggers = [Edge(soc.dut.uo_out)]
+        self.soc, self.which = soc, which
+        self.quad = which == "flash"
+        self.cs = 1 if self.quad else 2
+        self.triggers = [Edge(soc.dut.uo_out), Edge(soc.dut.uio_out)]
 
     def read(self):
         v = geti(self.soc.dut.uo_out, 0xFF)
-        m = self.m
-        return (v >> m["sck"]) & 1, (v >> m["cs"]) & 1, (v >> m["mosi"]) & 1
+        io = getm(self.soc.dut.uio_out) & 0xF
+        return v & 1, (v >> self.cs) & 1, (io if self.quad else io & 1)
 
-    def drive_miso(self, bit):
-        self.soc.set_ui(self.m["miso"], bit)
+    def drive_miso(self, v):
+        self.soc.drive(self.which, v)
 
 
 # --------------------------------------------------------------------------
@@ -217,6 +232,50 @@ class SpiTarget:
         c["rbits"].append(bit)
         c["rcount"] += 1
         cocotb.start_soon(self._drive(bit))
+
+
+class QspiFlashTarget(SpiTarget):
+    """Flash W25Q en modo Fast Read Quad I/O (opcode 0xEB), SPI modo 0, MSB primero. Es la ÚNICA lectura que
+    entiende (la flash del multidrop no usa SPI estándar):
+        8 ciclos opcode (IO0) | 6 ciclos dirección (IO3..IO0) | 2 ciclos de modo | 4 dummy | 8 ciclos de datos (IO3..IO0)
+    Muestrea IO en el flanco de SUBIDA de SCK y cambia sus salidas en el de BAJADA.  Un opcode distinto de 0xEB se ignora.
+    """
+    QREAD = 0xEB
+    N_CMD, N_ADDR, N_MODE, N_DUMMY, N_DATA = 8, 6, 2, 4, 8
+
+    def __init__(self, pins, miso_delay_ns=0.0, size=1 << 22):
+        super().__init__(pins, kind="flash", profile="standard", miso_delay_ns=miso_delay_ns, size=size)
+
+    def _start(self, now):
+        super()._start(now)
+        self.cur.update(mode_val=0, io_samples=[])
+
+    def _rising(self, now, io):
+        c = self.cur
+        n = len(c["rises"])
+        c["rises"].append(now)
+        c["bits"].append(io)
+        c["io_samples"].append(io)
+        c["t_first_rise"] = c["t_first_rise"] or now
+        c["t_last_rise"] = now
+        if n < self.N_CMD:
+            c["cmd"] = (c["cmd"] << 1) | (io & 1)
+        elif n < self.N_CMD + self.N_ADDR:
+            c["addr"] = (c["addr"] << 4) | (io & 0xF)
+        elif n < self.N_CMD + self.N_ADDR + self.N_MODE:
+            c["mode_val"] = (c["mode_val"] << 4) | (io & 0xF)
+
+    def _falling(self, now, io):
+        c = self.cur
+        c["falls"].append(now)
+        first = self.N_CMD + self.N_ADDR + self.N_MODE + self.N_DUMMY      # 20 subidas antes del 1er nibble
+        if c["cmd"] == self.QREAD and len(c["rises"]) >= first and c["rcount"] < self.N_DATA:
+            k = c["rcount"]
+            a = (c["addr"] + k // 2) % len(self.mem)
+            nib = (self.mem[a] >> 4) & 0xF if k % 2 == 0 else self.mem[a] & 0xF
+            c["rbits"].append(nib)
+            c["rcount"] += 1
+            cocotb.start_soon(self._drive(nib))
 
 
 # --------------------------------------------------------------------------

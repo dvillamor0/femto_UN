@@ -2,7 +2,7 @@
 """
 PRUEBAS UNITARIAS de src/perip_uart.v + src/uart.v  (RTL del silicio f15fccd)
 
-Se instancia como en femto.v:  clk_freq = 27 MHz, baud = 115200  (-P en COMPILE_ARGS).
+Se instancia como en femto.v:  clk_freq = 25 MHz, baud = 115200  (-P en COMPILE_ARGS).
 Mapa de registros (addr = mem_address[4:0]):
   0x08  escritura: dato TX    | lectura: dato RX
   0x10  escritura: control    bit0 rx_ack, bit2 LED, bit3 tx_wr (nivel, no pulso)
@@ -14,7 +14,7 @@ from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge
 
 from spimodels import geti
 
-CLK_FREQ, BAUD = 24_000_000, 115200
+CLK_FREQ, BAUD = 25_000_000, 115200
 IDEAL_CPB = CLK_FREQ / BAUD                 # 234.375 ciclos/bit esperados por la especificación
 DATA, CTRL = 0x08, 0x10
 
@@ -133,7 +133,7 @@ async def test_tx_frame_format(dut):
 
 @cocotb.test()
 async def test_tx_baud_rate_vs_spec(dut):
-    """Velocidad de TX: ciclos/bit debe ser clk_freq/baud = 234.4 (±3 %). Se mide en el RTL."""
+    """Velocidad de TX: ciclos/bit debe ser clk_freq/baud (±3 %). Se mide en el RTL."""
     await setup(dut)
     await send_byte(dut, 0x55)
     edges, levels = await capture_frame(dut)

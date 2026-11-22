@@ -8,6 +8,7 @@ Se lee el estado final de la CPU (registerFile), la RAM externa o los pines (UAR
 Todos los programas empiezan con un NOP en la dirección 0 (regla de silicio R1, ver DEF-R1).
 """
 import cocotb
+import soc as soc_lib
 from cocotb.triggers import ClockCycles
 
 from rvlib import *            # noqa: F401,F403
@@ -257,7 +258,7 @@ async def test_f13_led_control(dut):
 
 @cocotb.test()
 async def test_f14_rdcycle_monotonic_and_latency(dut):
-    """RDCYCLE crece con el tiempo; 10 instrucciones ALU entre dos lecturas cuestan ~198 ciclos c/u (flash)."""
+    """RDCYCLE crece con el tiempo; 10 instrucciones ALU entre dos lecturas cuestan ~114 ciclos c/u (lectura QSPI de la flash: 28 pulsos de SCK x 4 ciclos + CPU)."""
     p = new_prog(); p.emit(RDCYCLE(5))
     for _ in range(10): p.emit(I("addi", 7, 7, 1))
     p.emit(RDCYCLE(6)); h = halt_loop(p)
@@ -266,7 +267,7 @@ async def test_f14_rdcycle_monotonic_and_latency(dut):
     d = u32(soc.reg(6) - soc.reg(5))
     per = d / 11
     dut._log.info(f"Δcycles = {d}  ->  {per:.1f} ciclos/instrucción (fetch SPI flash)")
-    assert 180 <= per <= 215, f"{per:.1f} ciclos/instrucción fuera del rango esperado"
+    assert soc_lib.FETCH_CYCLES_MIN <= per <= soc_lib.FETCH_CYCLES_MAX, f"{per:.1f} ciclos/instrucción fuera del rango esperado"
 
 
 @cocotb.test()

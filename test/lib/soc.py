@@ -2,10 +2,10 @@
 """
 soc: banco de pruebas a nivel SoC para tt_um_femto (silicio f15fccd).
 
-Pines (según info.yaml):
-  uo_out[0]=MOSI flash  [1]=MOSI RAM  [2]=CS_N flash  [3]=CS_N RAM  [4]=SCK RAM  [5]=SCK flash
-  uo_out[6]=LED         [7]=TXD
-  ui_in[0]=MISO flash   [1]=MISO RAM  [2]=RXD
+Pines (según info.yaml, bus multi-drop: flash QSPI + RAM SPI):
+  uo_out[0]=SCK  [1]=CS_N flash  [2]=CS_N RAM  [6]=LED  [7]=TXD
+  uio[0]=IO0 (MOSI)  uio[1]=IO1 (MISO)  uio[2]=IO2  uio[3]=IO3
+  ui_in[2]=RXD
 
 Mapa de memoria visto por la CPU (femto.v):
   0x0000_0000..0x0000_FFFF  SPI Flash (código)      (cualquier dirección no listada también cae en la flash)
@@ -20,7 +20,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge, Timer
 
 from rvlib import (AUIPC, B, I, JAL, JALR, L, LUI, NOP, Prog, R, S, SH, li, u32)
-from spimodels import SocPins, SpiTarget, UartMonitor, geti
+from spimodels import QspiFlashTarget, SocPins, SpiTarget, UartMonitor, geti
 
 UART_BASE = 0x400000
 UART_DATA = UART_BASE + 0x08
@@ -30,6 +30,8 @@ RAM_TOP = 0x20000
 FLASH_SIZE = 1 << 22
 UART_CYCLES_PER_BIT = 208            # medido en uart.v (ver test_unit_uart): 16 * (divisor-1) con divisor=14
 CLK_NS = 20
+# Latencia de un fetch desde la flash QSPI: 28 pulsos de SCK * (2*FLASH_DIV=4 ciclos) = 112 ciclos + sobrecarga del CPU
+FETCH_CYCLES_MIN, FETCH_CYCLES_MAX = 108, 125
 
 
 class Soc:
@@ -38,8 +40,11 @@ class Soc:
         self.profile = profile or os.environ.get("MEM_PROFILE", "standard")
         self.clk_ns = clk_ns
         self.ui = 0x04                         # RXD en reposo = 1
-        self.flash = SpiTarget(SocPins(self, "flash"), kind="flash", profile=self.profile, size=FLASH_SIZE)
-        self.ram = SpiTarget(SocPins(self, "ram"), kind="ram", profile=self.profile, size=1 << 16)
+        self.uio = 0x00                        # entradas IO0..IO3 que presentan los esclavos
+        # flash: SOLO Quad SPI (0xEB); RAM: SOLO SPI estándar (0x03 / 0x02). `profile` ya no aplica (no hay defectos de silicio)
+        self.flash = QspiFlashTarget(SocPins(self, "flash"), size=FLASH_SIZE)
+        self.ram = SpiTarget(SocPins(self, "ram"), kind="ram", profile="standard", size=1 << 16)
+        self.drv = {"flash": 0, "ram": 0}
         self.uart = UartMonitor(self, bit=7, cycles_per_bit=UART_CYCLES_PER_BIT, clk_ns=clk_ns)
         self.led_events = []                   # (tiempo_ns, valor)
         self.cpu = dut.femto0.CPU
@@ -49,12 +54,18 @@ class Soc:
         self.ui = (self.ui & ~(1 << bit)) | ((v & 1) << bit)
         self.dut.ui_in.value = self.ui
 
+    def drive(self, who, v):
+        """Los esclavos comparten IO0..IO3: la flash maneja el nibble completo, la RAM sólo IO1 (MISO)."""
+        self.drv[who] = v
+        self.uio = (self.drv["flash"] & 0xF) | ((self.drv["ram"] & 1) << 1)
+        self.dut.uio_in.value = self.uio
+
     # ---- arranque -----------------------------------------------------------
     async def start(self, flash_image=b"", ram_image=None, seed=1, hold_cycles=12, randomize_regs=True):
         d = self.dut
         cocotb.start_soon(Clock(d.clk, self.clk_ns, unit="ns").start())
         d.ena.value = 1
-        d.uio_in.value = 0
+        d.uio_in.value = self.uio
         d.ui_in.value = self.ui
         d.rst_n.value = 0
         self.flash.mem[0:len(flash_image)] = flash_image
@@ -219,7 +230,7 @@ async def _boot_check(self, max_cycles=900):
     if got != want:
         raise BootFailure(f"la CPU no arranca: 1ª instrucción leída={None if got is None else hex(got)} "
                           f"esperada={hex(want)}; comando visto por la flash={None if cmd is None else hex(cmd)} "
-                          f"(esperado 0x3). Perfil de memoria: {self.profile}")
+                          f"(esperado 0xEB). Perfil de memoria: {self.profile}")
 
 
 def _cpu_started(self):
