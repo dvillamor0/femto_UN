@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 460" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Diagrama de bloques de tt_um_femto</title>
+<desc id="d">La CPU FemtoRV32 Quark se conecta a un decodificador de direcciones que reparte los accesos al controlador SPI multidrop (flash y RAM externas) y a la UART.</desc>
+<defs>
+<marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<pattern id="g" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#e4dfd0" stroke-width="1"/></pattern>
+</defs>
+<rect width="960" height="460" rx="10" fill="#f6f3ea"/>
+<rect width="960" height="460" rx="10" fill="url(#g)" opacity=".7"/>
+<!-- chip -->
+<rect x="60" y="36" width="610" height="388" rx="14" fill="#fbf9f3" stroke="#1b211e" stroke-width="2"/>
+<text x="80" y="396" font-size="14" font-weight="700" fill="#1b211e">tt_um_femto</text>
+<text x="80" y="414" font-size="11" fill="#5d6862">4×2 tiles · sky130A · reloj nominal 25 MHz</text>
+<circle cx="648" cy="58" r="6" fill="none" stroke="#1b211e" stroke-width="1.5"/>
+<!-- CPU -->
+<rect x="86" y="170" width="170" height="130" rx="8" fill="#f6e1d0" stroke="#b24d17" stroke-width="2"/>
+<text x="171" y="206" text-anchor="middle" font-size="15" font-weight="700" fill="#1b211e">FemtoRV32</text>
+<text x="171" y="226" text-anchor="middle" font-size="15" font-weight="700" fill="#1b211e">Quark</text>
+<text x="171" y="252" text-anchor="middle" font-size="11" fill="#5d6862">RV32I · sin M/C</text>
+<text x="171" y="270" text-anchor="middle" font-size="11" fill="#5d6862">ADDR_WIDTH = 24</text>
+<!-- decodificador -->
+<rect x="312" y="190" width="120" height="90" rx="8" fill="#ebe6d8" stroke="#1b211e" stroke-width="1.6"/>
+<text x="372" y="222" text-anchor="middle" font-size="13" font-weight="700" fill="#1b211e">Decodificador</text>
+<text x="372" y="241" text-anchor="middle" font-size="10.5" fill="#5d6862">mem_address</text>
+<text x="372" y="256" text-anchor="middle" font-size="10.5" fill="#5d6862">[31:16] → cs[6:0]</text>
+<!-- SPI -->
+<rect x="480" y="100" width="170" height="120" rx="8" fill="#d8ece6" stroke="#0d6a5c" stroke-width="2"/>
+<text x="565" y="132" text-anchor="middle" font-size="13" font-weight="700" fill="#1b211e">MappedSPI</text>
+<text x="565" y="149" text-anchor="middle" font-size="13" font-weight="700" fill="#1b211e">Multidrop</text>
+<text x="565" y="174" text-anchor="middle" font-size="10.5" fill="#5d6862">FLASH_DIV = 2</text>
+<text x="565" y="190" text-anchor="middle" font-size="10.5" fill="#5d6862">RAM_DIV = 5</text>
+<!-- UART -->
+<rect x="480" y="290" width="170" height="104" rx="8" fill="#e3e7f3" stroke="#3b4d7a" stroke-width="2"/>
+<text x="565" y="322" text-anchor="middle" font-size="13" font-weight="700" fill="#1b211e">peripheral_uart</text>
+<text x="565" y="342" text-anchor="middle" font-size="10.5" fill="#5d6862">+ uart · 8N1</text>
+<text x="565" y="360" text-anchor="middle" font-size="10.5" fill="#5d6862">registro de LED</text>
+<!-- buses internos -->
+<path d="M256 235H310" stroke="#1b211e" stroke-width="2" marker-end="url(#a)"/>
+<text x="283" y="226" text-anchor="middle" font-size="10" fill="#5d6862">mem_*</text>
+<path d="M432 222H456V160H478" fill="none" stroke="#1b211e" stroke-width="2" marker-end="url(#a)"/>
+<path d="M432 252H456V340H478" fill="none" stroke="#1b211e" stroke-width="2" marker-end="url(#a)"/>
+<text x="446" y="146" text-anchor="end" font-size="10.5" fill="#0d6a5c" font-weight="700">cs[0] flash</text>
+<text x="446" y="161" text-anchor="end" font-size="10.5" fill="#0d6a5c" font-weight="700">cs[6] RAM</text>
+<text x="446" y="372" text-anchor="end" font-size="10.5" fill="#3b4d7a" font-weight="700">cs[5]</text>
+<!-- retorno busy -->
+<path d="M565 100V70H172V168" fill="none" stroke="#b24d17" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a)"/>
+<text x="182" y="62" font-size="10.5" fill="#b24d17" font-weight="700">rbusy / wbusy: la CPU espera</text>
+<!-- pines externos -->
+<path d="M650 140H784" stroke="#0d6a5c" stroke-width="2.4"/>
+<path d="M784 112V190" stroke="#0d6a5c" stroke-width="2.4"/>
+<path d="M784 112H804" stroke="#0d6a5c" stroke-width="2.4" marker-end="url(#a)"/>
+<path d="M784 190H804" stroke="#0d6a5c" stroke-width="2.4" marker-end="url(#a)"/>
+<text x="660" y="130" font-size="10.5" fill="#0d6a5c" font-weight="700">SCK, IO0–IO3</text>
+<text x="660" y="158" font-size="10" fill="#5d6862">bus compartido</text>
+<text x="660" y="176" font-size="10" fill="#5d6862">CS_N: uno por chip </text>
+<rect x="806" y="86" width="132" height="54" rx="8" fill="#fbf9f3" stroke="#1b211e" stroke-width="1.6"/>
+<text x="872" y="110" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b211e">Flash QSPI</text>
+<text x="872" y="127" text-anchor="middle" font-size="10.5" fill="#5d6862">Quad I/O · 0xEB</text>
+<rect x="806" y="164" width="132" height="54" rx="8" fill="#fbf9f3" stroke="#1b211e" stroke-width="1.6"/>
+<text x="872" y="188" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b211e">SPI RAM</text>
+<text x="872" y="205" text-anchor="middle" font-size="10.5" fill="#5d6862">0x03 / 0x02</text>
+<path d="M650 318H804" stroke="#3b4d7a" stroke-width="2" marker-end="url(#a)"/>
+<path d="M804 342H650" stroke="#3b4d7a" stroke-width="2" marker-end="url(#a)"/>
+<text x="727" y="310" text-anchor="middle" font-size="10.5" fill="#3b4d7a" font-weight="700">TXD</text>
+<text x="727" y="358" text-anchor="middle" font-size="10.5" fill="#3b4d7a" font-weight="700">RXD</text>
+<rect x="806" y="296" width="132" height="64" rx="8" fill="#fbf9f3" stroke="#1b211e" stroke-width="1.6"/>
+<text x="872" y="323" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b211e">USB-serial</text>
+<text x="872" y="341" text-anchor="middle" font-size="10.5" fill="#5d6862">115200 · 8N1</text>
+<path d="M650 386H842" stroke="#3b4d7a" stroke-width="2" marker-end="url(#a)"/>
+<text x="727" y="378" text-anchor="middle" font-size="10.5" fill="#3b4d7a" font-weight="700">LEDS</text>
+<circle cx="872" cy="386" r="13" fill="#f6e1d0" stroke="#b24d17" stroke-width="2"/>
+<text x="872" y="418" text-anchor="middle" font-size="10.5" fill="#5d6862">LED</text>
+</svg>

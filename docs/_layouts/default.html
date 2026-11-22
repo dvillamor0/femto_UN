@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'es' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.url != '/' %}{{ page.title | escape }} · {% endif %}{{ site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description | escape }}">
+<link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('femto-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="{{ '/assets/css/femto.css' | relative_url }}">
+</head>
+<body>
+{%- comment -%} Recorre la navegación: sección actual, página anterior y siguiente {%- endcomment -%}
+{%- assign prev_item = nil -%}
+{%- assign next_item = nil -%}
+{%- assign last_item = nil -%}
+{%- assign found = false -%}
+{%- assign eyebrow = page.eyebrow -%}
+{%- for group in site.data.nav -%}
+  {%- for item in group.items -%}
+    {%- if found and next_item == nil -%}{%- assign next_item = item -%}{%- endif -%}
+    {%- if item.url == page.url -%}
+      {%- assign found = true -%}
+      {%- assign prev_item = last_item -%}
+      {%- if eyebrow == nil and group.title -%}{%- assign eyebrow = group.title -%}{%- endif -%}
+    {%- endif -%}
+    {%- assign last_item = item -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="topbar">
+  <button class="icon-btn" id="menu-toggle" aria-label="Abrir navegación" aria-controls="sidebar" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+  </button>
+  <a class="topbar-title" href="{{ '/' | relative_url }}">femto_UN</a>
+  <button class="icon-btn theme-toggle" aria-label="Cambiar tema claro/oscuro">
+    <svg class="i-moon" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+</header>
+
+<div class="backdrop" id="backdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="{{ '/' | relative_url }}">
+    <img src="{{ '/assets/img/favicon.svg' | relative_url }}" width="34" height="34" alt="">
+    <span><strong>femto_UN</strong><small>RV32I · Tiny Tapeout</small></span>
+  </a>
+  <nav aria-label="Documentación">
+    {%- for group in site.data.nav %}
+    <div class="nav-group">
+      {%- if group.title %}<p class="nav-label">{{ group.title }}</p>{% endif %}
+      <ul>
+        {%- for item in group.items %}
+        <li><a href="{{ item.url | relative_url }}"{% if item.url == page.url %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </div>
+    {%- endfor %}
+  </nav>
+  <div class="side-foot">
+    <a href="{{ site.repo }}" rel="noopener">Repositorio en GitHub ↗</a>
+    <button class="theme-toggle pill" aria-label="Cambiar tema claro/oscuro">
+      <svg class="i-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+      <svg class="i-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span>Tema</span>
+    </button>
+  </div>
+</aside>
+
+<div class="shell">
+  <main id="contenido" class="main">
+    <article class="page{% if page.home %} is-home{% endif %}">
+      <header class="page-head">
+        {%- if eyebrow %}<p class="eyebrow">{{ eyebrow }}</p>{% endif %}
+        <h1>{{ page.title }}</h1>
+        {%- if page.lead %}<p class="lead">{{ page.lead }}</p>{% endif %}
+      </header>
+
+      <div class="prose">
+{{ content }}
+      </div>
+
+      {%- if prev_item or next_item %}
+      <nav class="pager" aria-label="Páginas anterior y siguiente">
+        {%- if prev_item %}
+        <a class="pager-prev" href="{{ prev_item.url | relative_url }}"><small>← Anterior</small><span>{{ prev_item.title }}</span></a>
+        {%- else %}<span></span>{% endif %}
+        {%- if next_item %}
+        <a class="pager-next" href="{{ next_item.url | relative_url }}"><small>Siguiente →</small><span>{{ next_item.title }}</span></a>
+        {%- endif %}
+      </nav>
+      {%- endif %}
+
+      <footer class="page-foot">
+        <span>Apache-2.0 · FemtoRV32 de Bruno Levy · Universidad Nacional de Colombia</span>
+        {%- if page.path %}<a href="{{ site.repo }}/blob/gh_pages/docs/{{ page.path }}" rel="noopener">Ver fuente de esta página ↗</a>{% endif %}
+      </footer>
+    </article>
+  </main>
+  <aside class="toc" id="toc" aria-label="En esta página" hidden>
+    <p class="toc-label">En esta página</p>
+    <ul></ul>
+  </aside>
+</div>
+
+<script src="{{ '/assets/js/femto.js' | relative_url }}"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Navegación lateral. Para añadir una página: crea el .md con su `permalink` y agrégala aquí.
+- items:
+    - { title: Inicio, url: / }
+- title: Primeros pasos
+  items:
+    - { title: Herramientas, url: /tools/ }
+    - { title: Introducción, url: /user/introduccion/ }
+    - { title: Simulación y firmware, url: /user/simulacion/ }
+    - { title: Prueba en hardware, url: /user/hardware/ }
+- title: Diseño
+  items:
+    - { title: SoC e interconexión, url: /development/soc/ }
+    - { title: CPU FemtoRV32 Quark, url: /development/cpu/ }
+    - { title: Bus SPI multidrop, url: /development/spi-multidrop/ }
+    - { title: UART, url: /development/uart/ }
+- title: Implementación
+  items:
+    - { title: Prototipo en FPGA, url: /development/fpga/ }
+    - { title: Flujo ASIC, url: /development/asic/ }
+- title: Calidad
+  items:
+    - { title: Verificación, url: /development/verificacion/ }
+    - { title: Limitaciones conocidas, url: /development/limitaciones/ }

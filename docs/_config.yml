@@ -1,0 +1,17 @@
+# Configuración de Jekyll para GitHub Pages (rama gh_pages, carpeta /docs)
+title: femto_UN
+description: Documentación del SoC RISC-V femto_UN (FemtoRV32 Quark + flash QSPI + SPI RAM + UART) para Tiny Tapeout
+lang: es
+url: "https://dvillamor0.github.io"
+baseurl: "/femto_UN"
+repo: "https://github.com/dvillamor0/femto_UN"
+
+markdown: kramdown
+highlighter: rouge
+
+# info.md es el datasheet de Tiny Tapeout (lo consume la acción "docs"); no se publica como página.
+exclude:
+  - info.md
+  - Gemfile
+  - Gemfile.lock
+  - README.md
