@@ -60,6 +60,27 @@
 
   "FP_PDN_VPITCH": 38.87,
 
+  "//": "OpenRAM hard macro: banco de registros del nucleo (32x32, 1RW1R). Instancia: femto0.CPU.regfile.u_sram",
+  "MACROS": {
+    "sky130_sram_32x32_1rw1r": {
+      "gds": ["dir::../macros/sky130_sram_32x32_1rw1r.gds"],
+      "lef": ["dir::../macros/sky130_sram_32x32_1rw1r.lef"],
+      "instances": {
+        "femto0.CPU.regfile.u_sram": {
+          "location": [15, 30],
+          "orientation": "N"
+        }
+      },
+      "nl": ["dir::../macros/sky130_sram_32x32_1rw1r.v"]
+    }
+  },
+  "EXTRA_LEFS": ["dir::../macros/sky130_sram_32x32_1rw1r.lef"],
+  "EXTRA_GDS_FILES": ["dir::../macros/sky130_sram_32x32_1rw1r.gds"],
+  "EXTRA_LIBS": ["dir::../macros/sky130_sram_32x32_1rw1r_TT_1p8V_25C.lib"],
+  "PDN_MACRO_CONNECTIONS": [
+    "femto0.CPU.regfile.u_sram vccd1 vssd1 vccd1 vssd1"
+  ],
+
   "//": "Clock",
   "RUN_CTS": 1,
 

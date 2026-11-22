@@ -68,7 +68,10 @@ version:
 # ----------------------------------------------------------------------------
 FPGA_DIR     = build/fpga
 FPGA_TOP     = top_fpga
-FPGA_SRC     = src/femto.v src/femtorv32_quark.v src/perip_uart.v src/uart.v \
+# El banco de registros usa la macro OpenRAM en ASIC; en FPGA se sustituye por
+# config/sky130_sram_32x32_1rw1r_fpga.v (misma interfaz, sintetizable).
+FPGA_SRC     = src/femto.v src/femtorv32_quark.v src/femto_regfile_sram.v \
+               config/sky130_sram_32x32_1rw1r_fpga.v src/perip_uart.v src/uart.v \
                src/MappedSPIMultidrop.v config/top_fpga.v
 FPGA_LPF     = config/colorlight_i9.lpf
 FPGA_DEVICE  = --45k --package CABGA381 --speed 6

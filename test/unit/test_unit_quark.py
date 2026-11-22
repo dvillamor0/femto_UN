@@ -47,6 +47,17 @@ def geti(sig, default=None):
         return default
 
 
+# El banco de registros es la macro SRAM sky130_sram_32x32_1rw1r (lectura síncrona, rs1 y rs2
+# a la vez): leer los operandos cuesta 1 ciclo más por instrucción (estado READ_REGS).
+RF_EXTRA = 1
+
+
+def rf_value(dut, i):
+    """Contenido del registro i leído del array interno del modelo de la SRAM (None si X)."""
+    s = str(dut.regfile.u_sram.mem[i].value)[-32:]
+    return int(s, 2) if set(s) <= {"0", "1"} else None
+
+
 class CoreTB:
     def __init__(self, dut, rbusy_max=0, wbusy_max=0, seed=1):
         self.dut = dut
@@ -78,6 +89,7 @@ class CoreTB:
         dut.mem_rdata.value = 0
         dut.mem_rbusy.value = 0
         dut.mem_wbusy.value = 0
+        dut.interrupt_request.value = 0
         # 'cycles' y x4/x31 no se inicializan en el RTL (sólo con -DBENCH): los dejamos a 0
         for sig_name in ("cycles",):
             try:
@@ -86,7 +98,7 @@ class CoreTB:
                 pass
         for i in range(32):
             try:
-                dut.registerFile[i].value = 0
+                dut.regfile.u_sram.mem[i].value = 0
             except Exception:
                 break
         cocotb.start_soon(self._mem_model())
@@ -170,7 +182,7 @@ class CoreTB:
     def regs(self):
         out = []
         for i in range(32):
-            v = geti(self.dut.registerFile[i])
+            v = rf_value(self.dut, i)
             out.append(v)
         return out
 
@@ -208,7 +220,7 @@ async def test_reset_and_first_fetch(dut):
     assert tb.fetch_trace[0] == 0, f"primer fetch en 0x{tb.fetch_trace[0]:x}"
     assert tb.fetch_trace[:3] == [0, 4, 4] or tb.fetch_trace[:2] == [0, 4], tb.fetch_trace[:4]
     assert geti(dut.mem_wmask) == 0
-    assert geti(dut.registerFile[1]) == 5
+    assert rf_value(dut, 1) == 5
 
 
 @cocotb.test()
@@ -573,7 +585,7 @@ async def test_x0_hardwired_zero(dut):
     h = p.halt()
     await tb.run(p, h)
     check_results(tb, p, [0, u32(-RES_BASE)], "x0")
-    assert geti(dut.registerFile[0]) == 0
+    assert rf_value(dut, 0) == 0   # x0 nunca se escribe en la SRAM
 
 
 @cocotb.test()
@@ -595,14 +607,16 @@ async def test_rdcycle_and_system(dut):
     await tb.run(p, h)
     c1, c2, c3, c4 = (tb.rd32(RES_BASE + 4 * i) for i in range(4))
     assert c2 > c1, f"cycles no crece: {c1} -> {c2}"
-    # sin esperas, cada instrucción simple tarda 3 ciclos (FETCH, WAIT_INSTR, EXECUTE)
-    assert c2 - c1 == 3 * (N + 1), f"Δcycles={c2 - c1}, esperado {3 * (N + 1)}"
-    assert c4 - c3 == 3 * 3, f"ECALL/EBREAK deberían ser NOP de 3 ciclos: Δ={c4 - c3}"
+    # sin esperas, cada instrucción simple tarda 3 + RF_EXTRA ciclos
+    # (FETCH, WAIT_INSTR, READ_REGS, EXECUTE)
+    cpi = 3 + RF_EXTRA
+    assert c2 - c1 == cpi * (N + 1), f"Δcycles={c2 - c1}, esperado {cpi * (N + 1)}"
+    assert c4 - c3 == cpi * 3, f"ECALL/EBREAK deberían ser NOP de {cpi} ciclos: Δ={c4 - c3}"
 
 
 @cocotb.test()
 async def test_cycles_per_instruction(dut):
-    """Regresión de latencias (sin esperas): ALU=3, load/store=4, shift de s bits = s+4."""
+    """Regresión de latencias (sin esperas): ALU=3+X, load/store=4+X, shift de s bits = s+4+X (X = RF_EXTRA)."""
     tb = await make_tb(dut)
     p = Prog()
     p.init_results()
@@ -620,12 +634,14 @@ async def test_cycles_per_instruction(dut):
     h = p.halt()
     await tb.run(p, h)
     got = {n: tb.rd32(RES_BASE + 4 * i) for i, (n, _) in enumerate(probes)}
-    # Δ incluye la propia instrucción RDCYCLE (3 ciclos) + la sonda
-    dut._log.info("Δ ciclos (incluye RDCYCLE=3): " + ", ".join(f"{k}={v}" for k, v in got.items()))
-    assert got["alu"] == 3 + 3
-    assert got["lw"] == 3 + 4 and got["sw"] == 3 + 4
-    assert got["slli0"] == 3 + 4 and got["slli1"] == 3 + 5 and got["srai31"] == 3 + 35
-    assert got["beq_nt"] == 3 + 3 and got["beq_t"] == 3 + 3 and got["jal"] == 3 + 3
+    # Δ incluye la propia instrucción RDCYCLE (cpi ciclos) + la sonda
+    cpi = 3 + RF_EXTRA
+    dut._log.info(f"Δ ciclos (incluye RDCYCLE={cpi}): " + ", ".join(f"{k}={v}" for k, v in got.items()))
+    x = RF_EXTRA
+    assert got["alu"] == cpi + 3 + x
+    assert got["lw"] == cpi + 4 + x and got["sw"] == cpi + 4 + x
+    assert got["slli0"] == cpi + 4 + x and got["slli1"] == cpi + 5 + x and got["srai31"] == cpi + 35 + x
+    assert got["beq_nt"] == cpi + 3 + x and got["beq_t"] == cpi + 3 + x and got["jal"] == cpi + 3 + x
 
 
 @cocotb.test()

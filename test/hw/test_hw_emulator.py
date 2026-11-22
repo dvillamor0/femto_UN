@@ -60,7 +60,7 @@ class HwBench:
         rng = random.Random(seed)
         cpu = self.dut.dut.femto0.CPU
         for i in range(32):
-            cpu.registerFile[i].value = rng.getrandbits(32)
+            cpu.regfile.u_sram.mem[i].value = rng.getrandbits(32)
 
     async def reset(self, n=12):
         self.rx.clear()

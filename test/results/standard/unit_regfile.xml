@@ -1,0 +1,11 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1795380925" />
+    <testcase name="test_write_read_same_register" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="62" time="0.00045752525329589844" sim_time_ns="200.0" ratio_time="437134.3408025013" />
+    <testcase name="test_independent_registers" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="70" time="0.00038170814514160156" sim_time_ns="360.0" ratio_time="943128.9444097439" />
+    <testcase name="test_both_groups_and_last_register" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="81" time="0.00041103363037109375" sim_time_ns="440.0" ratio_time="1070472.018561485" />
+    <testcase name="test_full_sweep_no_aliasing" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="94" time="0.003828763961791992" sim_time_ns="4920.0" ratio_time="1285010.005604334" />
+    <testcase name="test_overwrite" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="107" time="0.00027632713317871094" sim_time_ns="280.0" ratio_time="1013291.734253667" />
+    <testcase name="test_data_valid_only_in_capture_cycle" classname="test_unit_regfile" file="/run/media/dvill/Datos/Documentos/un/maestria/1/digital/femto_UN/test/unit/test_unit_regfile.py" lineno="116" time="0.00021386146545410156" sim_time_ns="203.0" ratio_time="949212.6109253066" />
+  </testsuite>
+</testsuites>

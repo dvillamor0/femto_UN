@@ -29,7 +29,8 @@ module tt_um_femto(
 		.spi_io_o       (uio_out[3:0]),
 		.spi_io_oe      (uio_oe[3:0]),
 		.spi_io_i       (uio_in[3:0]),
-		.RXD            (ui_in[2])
+		.RXD            (ui_in[2]),
+		.interrupt_request (ui_in[3])
 	);
 	
 	// uo_out[5:3] sin usar
@@ -38,7 +39,7 @@ module tt_um_femto(
 	assign uio_out[7:4] = 4'h0;
 	assign uio_oe[7:4]  = 4'h0;
 	
-	wire _unused = &{ena, uio_in[7:4], ui_in[7:3], ui_in[1:0], 1'b0};
+	wire _unused = &{ena, uio_in[7:4], ui_in[7:4], ui_in[1:0], 1'b0};
 	
 /* verilator lint_on UNDRIVEN */
 endmodule
@@ -57,7 +58,8 @@ module femto (
 
    output        wire LEDS,   // system LEDs
    input 	     RXD,    // UART receive
-   output 	     TXD     // UART transmit
+   output 	     TXD,    // UART transmit
+   input         interrupt_request   // peticion de interrupcion (activa en alto)
 );
    wire [31:0] mem_address;
    reg  [31:0] mem_rdata;
@@ -76,7 +78,8 @@ module femto (
       .mem_wdata(mem_wdata),
       .mem_wmask(mem_wmask),
       .mem_rbusy(mapped_spi_flash_rbusy | spi_ram_rbusy),
-      .mem_wbusy(spi_ram_wbusy)
+      .mem_wbusy(spi_ram_wbusy),
+      .interrupt_request(interrupt_request)
    );
    wire [31:0] RAM_rdata;
    wire  wr = |mem_wmask;

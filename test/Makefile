@@ -8,7 +8,10 @@ PROFILE  ?= $(or $(MEM_PROFILE),standard)
 export PATH := $(HOME)/opt/iverilog-12/bin:$(PATH)
 export MEM_PROFILE := $(PROFILE)
 export PYTHONPATH  := $(CURDIR)/lib:$(CURDIR)/unit:$(CURDIR)/integration:$(CURDIR)/functional:$(CURDIR)/e2e:$(CURDIR)/acceptance:$(CURDIR)/hw:$(CURDIR)/tools
-SOC_SRC  = $(SRC)/femto.v $(SRC)/femtorv32_quark.v $(SRC)/perip_uart.v $(SRC)/uart.v $(SRC)/MappedSPIMultidrop.v
+# Banco de registros = macro SRAM: wrapper + modelo funcional (macros/, OpenRAM o el de sustitución)
+MACRO_SIM = $(abspath $(SRC)/../macros)/sky130_sram_32x32_1rw1r.v
+RF_SRC    = $(SRC)/femto_regfile_sram.v $(MACRO_SIM)
+SOC_SRC  = $(SRC)/femto.v $(SRC)/femtorv32_quark.v $(RF_SRC) $(SRC)/perip_uart.v $(SRC)/uart.v $(SRC)/MappedSPIMultidrop.v
 MD_SRC   = $(SRC)/MappedSPIMultidrop.v
 RES      = $(CURDIR)/results/$(PROFILE)
 
@@ -19,11 +22,12 @@ SIM_BUILD=sim_build/$(1) TOPLEVEL=$(2) COCOTB_TEST_MODULES=$(3) VERILOG_SOURCES=
   COMPILE_ARGS="$(5)" COCOTB_RESULTS_FILE=$(RES)/$(1).xml $(MAKE) -f Makefile.sim || true
 endef
 
-.PHONY: hw hwdbg flashdbg all unit unit-quark unit-multidrop unit-uart integration integration-isa functional e2e acceptance clean report
+.PHONY: hw hwdbg flashdbg all unit unit-quark unit-regfile unit-multidrop unit-uart integration integration-isa functional e2e acceptance clean report
 all: unit integration integration-isa functional e2e acceptance report
 
-unit: unit-quark unit-multidrop unit-uart
-unit-quark:       ; $(call RUN,unit_quark,FemtoRV32,test_unit_quark,$(SRC)/femtorv32_quark.v,-DBENCH)
+unit: unit-quark unit-regfile unit-multidrop unit-uart
+unit-quark:       ; $(call RUN,unit_quark,FemtoRV32,test_unit_quark,$(SRC)/femtorv32_quark.v $(RF_SRC),-DBENCH)
+unit-regfile:     ; $(call RUN,unit_regfile,femto_regfile_sram,test_unit_regfile,$(RF_SRC),)
 unit-multidrop:  ; $(call RUN,unit_multidrop,MappedSPIMultidrop,test_unit_multidrop,$(MD_SRC),)
 unit-uart:        ; $(call RUN,unit_uart,peripheral_uart,test_unit_uart,$(SRC)/perip_uart.v $(SRC)/uart.v,-Pperipheral_uart.clk_freq=25000000 -Pperipheral_uart.baud=115200)
 integration:      ; $(call RUN,integration,tt_um_femto,test_integration,$(SOC_SRC),)

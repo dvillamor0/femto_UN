@@ -75,7 +75,7 @@ class Soc:
         if randomize_regs:                         # el silicio arranca con basura
             for i in range(32):
                 try:
-                    self.cpu.registerFile[i].value = rng.getrandbits(32)
+                    self.cpu.regfile.u_sram.mem[i].value = rng.getrandbits(32)
                 except Exception:
                     break
             try:
@@ -126,7 +126,12 @@ class Soc:
         return geti(self.cpu.state)
 
     def reg(self, i):
-        return geti(self.cpu.registerFile[i])
+        # el banco de registros es la macro SRAM (modelo funcional): mem[i], 33 bits
+        # (bit 32 = columna de reserva, no se usa). x0 no se almacena: siempre 0.
+        if i == 0:
+            return 0
+        s = str(self.cpu.regfile.u_sram.mem[i].value)[-32:]
+        return int(s, 2) if set(s) <= {"0", "1"} else None
 
 
 # --------------------------------------------------------------------------
