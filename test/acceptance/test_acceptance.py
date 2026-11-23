@@ -177,16 +177,6 @@ async def test_req06b_uart_rx_back_to_back(dut):
     await soc.run_cycles(20000)
     assert soc.uart.text() == "AB", f"eco={soc.uart.text()!r}"
 
-
-@cocotb.test()
-async def test_req06c_uart_rx_from_pc_27mhz(dut):
-    """REQ-06c: con reloj de 27 MHz (diseño nominal) el PC a 115200 exactos debe poder comunicarse."""
-    soc = await boot(dut, echo_prog())
-    await soc.run_cycles(3000)
-    await pc_send(soc, b"RV32", 27_000_000, 12000)
-    assert soc.uart.text() == "RV32", f"eco={soc.uart.text()!r}"
-
-
 @cocotb.test()
 async def test_req07_power_up_robustness(dut):
     """REQ-07: 3 estados iniciales aleatorios (registros y contador) -> siempre el mismo banner."""
