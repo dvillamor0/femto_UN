@@ -7,7 +7,7 @@ Datasheet de Tiny Tapeout. Lo consume la acción "docs"; Jekyll lo excluye del s
 femto_UN is a minimal RISC-V system on chip: Bruno Levy's FemtoRV32 *Quark* core (RV32I, no M/C extensions) with no on-chip memory.
 Instructions are fetched from an external Quad-SPI flash (Fast Read Quad I/O, `0xEB`) and data lives in an external SPI RAM.
 Both memories share SCK and IO0–IO3 on a single multi-drop bus, each with its own chip select, handled by one controller (`MappedSPIMultidrop`).
-A UART (8N1) provides the console and one register bit drives an LED.
+A UART (8N1) provides the console and one register bit drives an LED. The core registers live in an OpenRAM SRAM macro, and an active-high interrupt request is available on `ui[3]`.
 
 Memory map seen by the CPU:
 
@@ -17,7 +17,7 @@ Memory map seen by the CPU:
 | `0x0001_0000` – `0x0001_FFFF` | SPI RAM (data and stack, aligned 32-bit `lw`/`sw` only) |
 | `0x0040_0000` | UART: `+0x08` data, `+0x10` status/control (bit 2 LED, bit 3 `tx_wr`, bit 0 `rx_ack`) |
 
-Nominal clock: 25 MHz. Full documentation (in Spanish): https://dvillamor0.github.io/femto_UN/
+Input `ui[3]` is the interrupt request (`IRQ`, active high); `ui[2]` is the UART receive line. Nominal clock: 25 MHz. Full documentation (in Spanish): https://dvillamor0.github.io/femto_UN/
 
 ## How to test
 
@@ -25,7 +25,7 @@ Nominal clock: 25 MHz. Full documentation (in Spanish): https://dvillamor0.githu
 2. Connect the flash (with its Quad Enable bit set) and a SPI RAM with 3-byte addressing to the bidirectional pins, and a USB-serial dongle to TXD/RXD.
 3. Release reset and open the serial port. The test program prints a banner and turns the LED on.
 
-Note: the UART divider is derived from `clk_freq` in `femto.v`; check the documentation for the effective baud rate at your clock.
+Note: the UART divider is derived from `clk_freq` in `femto.v` (25 MHz gives 217 clocks per bit, about 115 207 baud); at another clock the baud rate scales accordingly.
 
 ## External hardware
 

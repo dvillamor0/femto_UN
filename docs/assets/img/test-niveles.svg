@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Niveles de prueba y qué usa cada uno</title>
+<desc id="d">Tabla gráfica: para cada nivel (unit quark, regfile, multidrop, uart, integración, funcional, e2e, aceptación) el módulo bajo prueba, el estímulo y el oráculo, y las partes de test/lib que usa.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L12 6L0 12z" fill="#f6f3ea" stroke="#1b211e" stroke-width="1.2"/></marker></defs>
+<rect width="960" height="560" rx="10" fill="#f6f3ea"/>
+<text x="30" y="28" font-size="10.5" font-weight="700" fill="#5d6862">NIVEL</text>
+<text x="200" y="28" font-size="10.5" font-weight="700" fill="#5d6862">MÓDULO BAJO PRUEBA (toplevel)</text>
+<text x="430" y="28" font-size="10.5" font-weight="700" fill="#5d6862">ESTÍMULO Y ORÁCULO</text>
+<text x="770" y="28" font-size="10.5" font-weight="700" fill="#5d6862">test/lib</text>
+<rect x="20" y="44" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="44" width="6" height="56" fill="#b24d17"/>
+<text x="34" y="66" font-size="12.5" font-weight="700" fill="#1b211e">Unit · Quark</text>
+<text x="34" y="84" font-size="10" fill="#5d6862">test_unit_quark.py</text>
+<text x="200" y="66" font-size="12" font-weight="700" fill="#1b211e">FemtoRV32 + banco SRAM</text>
+<text x="200" y="84" font-size="10.5" fill="#5d6862">-DBENCH · sin bus SPI</text>
+<text x="430" y="66" font-size="11.5" fill="#1b211e">CoreTB: memoria en Python con esperas</text>
+<text x="430" y="84" font-size="10.5" fill="#5d6862">oráculo: ISS + aleatorio diferencial</text>
+<text x="770" y="66" font-size="11.5" font-weight="700" fill="#1b211e">rvlib</text>
+<rect x="20" y="106" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="106" width="6" height="56" fill="#b24d17"/>
+<text x="34" y="128" font-size="12.5" font-weight="700" fill="#1b211e">Unit · regfile</text>
+<text x="34" y="146" font-size="10" fill="#5d6862">test_unit_regfile.py</text>
+<text x="200" y="128" font-size="12" font-weight="700" fill="#1b211e">femto_regfile_sram</text>
+<text x="200" y="146" font-size="10.5" fill="#5d6862">wrapper + modelo de la macro</text>
+<text x="430" y="128" font-size="11.5" fill="#1b211e">rd_en / rd_addr1 / rd_addr2 → datos</text>
+<text x="430" y="146" font-size="10.5" fill="#5d6862">oráculo: diccionario de Python</text>
+<text x="770" y="128" font-size="11.5" fill="#1b211e">—</text>
+<rect x="20" y="168" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="168" width="6" height="56" fill="#b24d17"/>
+<text x="34" y="190" font-size="12.5" font-weight="700" fill="#1b211e">Unit · multidrop</text>
+<text x="34" y="208" font-size="10" fill="#5d6862">test_unit_multidrop.py</text>
+<text x="200" y="190" font-size="12" font-weight="700" fill="#1b211e">MappedSPIMultidrop</text>
+<text x="200" y="208" font-size="10.5" fill="#5d6862">controlador flash + RAM</text>
+<text x="430" y="190" font-size="11.5" fill="#1b211e">MdBench: hace de CPU y vigila el bus</text>
+<text x="430" y="208" font-size="10.5" fill="#5d6862">esclavos: QspiFlashTarget + SpiTarget</text>
+<text x="770" y="190" font-size="11.5" font-weight="700" fill="#1b211e">spimodels</text>
+<rect x="20" y="230" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="230" width="6" height="56" fill="#b24d17"/>
+<text x="34" y="252" font-size="12.5" font-weight="700" fill="#1b211e">Unit · UART</text>
+<text x="34" y="270" font-size="10" fill="#5d6862">test_unit_uart.py</text>
+<text x="200" y="252" font-size="12" font-weight="700" fill="#1b211e">peripheral_uart</text>
+<text x="200" y="270" font-size="10.5" fill="#5d6862">25 MHz · 115200</text>
+<text x="430" y="252" font-size="11.5" fill="#1b211e">bus_write / bus_read / capture_frame</text>
+<text x="430" y="270" font-size="10.5" fill="#5d6862">oráculo: tramas medidas en ciclos</text>
+<text x="770" y="252" font-size="11.5" font-weight="700" fill="#1b211e">spimodels.geti</text>
+<rect x="20" y="292" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="292" width="6" height="56" fill="#0d6a5c"/>
+<text x="34" y="314" font-size="12.5" font-weight="700" fill="#1b211e">Integración (+ ISA)</text>
+<text x="34" y="332" font-size="10" fill="#5d6862">test_integration*.py</text>
+<text x="200" y="314" font-size="12" font-weight="700" fill="#1b211e">tt_um_femto completo</text>
+<text x="200" y="332" font-size="10.5" fill="#5d6862">señales internas visibles</text>
+<text x="430" y="314" font-size="11.5" fill="#1b211e">firmware + BusMonitor + soc.reg()</text>
+<text x="430" y="332" font-size="10.5" fill="#5d6862">oráculo: ISS (traza y registros)</text>
+<text x="770" y="314" font-size="11.5" font-weight="700" fill="#1b211e">rvlib · soc · fw</text>
+<text x="770" y="332" font-size="10.5" fill="#5d6862">+ spimodels</text>
+<rect x="20" y="354" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="354" width="6" height="56" fill="#0d6a5c"/>
+<text x="34" y="376" font-size="12.5" font-weight="700" fill="#1b211e">Funcional</text>
+<text x="34" y="394" font-size="10" fill="#5d6862">test_functional.py</text>
+<text x="200" y="376" font-size="12" font-weight="700" fill="#1b211e">tt_um_femto completo</text>
+<text x="200" y="394" font-size="10.5" fill="#5d6862">programas RV32I</text>
+<text x="430" y="376" font-size="11.5" fill="#1b211e">el firmware guarda resultados en RAM</text>
+<text x="430" y="394" font-size="10.5" fill="#5d6862">oráculo: alu() / br_taken() de rvlib</text>
+<text x="770" y="376" font-size="11.5" font-weight="700" fill="#1b211e">rvlib · soc · fw</text>
+<text x="770" y="394" font-size="10.5" fill="#5d6862">+ spimodels</text>
+<rect x="20" y="416" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="416" width="6" height="56" fill="#0d6a5c"/>
+<text x="34" y="438" font-size="12.5" font-weight="700" fill="#1b211e">Extremo a extremo</text>
+<text x="34" y="456" font-size="10" fill="#5d6862">test_e2e.py</text>
+<text x="200" y="438" font-size="12" font-weight="700" fill="#1b211e">tt_um_femto · solo pines</text>
+<text x="200" y="456" font-size="10.5" fill="#5d6862">ui_in, uo_out, uio</text>
+<text x="430" y="438" font-size="11.5" fill="#1b211e">UartMonitor, LED, reset, flash/RAM</text>
+<text x="430" y="456" font-size="10.5" fill="#5d6862">oráculo: lo que vería un usuario</text>
+<text x="770" y="438" font-size="11.5" font-weight="700" fill="#1b211e">rvlib · soc · fw</text>
+<text x="770" y="456" font-size="10.5" fill="#5d6862">+ spimodels</text>
+<rect x="20" y="478" width="920" height="56" rx="4" fill="#f6f3ea" stroke="#cfc9b8"/>
+<rect x="20" y="478" width="6" height="56" fill="#0d6a5c"/>
+<text x="34" y="500" font-size="12.5" font-weight="700" fill="#1b211e">Aceptación</text>
+<text x="34" y="518" font-size="10" fill="#5d6862">test_acceptance.py</text>
+<text x="200" y="500" font-size="12" font-weight="700" fill="#1b211e">tt_um_femto · solo pines</text>
+<text x="200" y="518" font-size="10.5" fill="#5d6862">REQ-01 … REQ-08</text>
+<text x="430" y="500" font-size="11.5" fill="#1b211e">criterios cuantitativos medidos</text>
+<text x="430" y="518" font-size="10.5" fill="#5d6862">oráculo: umbrales del requisito</text>
+<text x="770" y="500" font-size="11.5" font-weight="700" fill="#1b211e">rvlib · soc · fw</text>
+<text x="770" y="518" font-size="10.5" fill="#5d6862">+ spimodels</text>
+<rect x="30" y="544" width="14" height="14" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.4"/>
+<text x="52" y="556" font-size="10.5" fill="#1b211e">módulo aislado (toplevel propio)</text>
+<rect x="290" y="544" width="14" height="14" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.4"/>
+<text x="312" y="556" font-size="10.5" fill="#1b211e">SoC completo (tt_um_femto)</text>
+</svg>

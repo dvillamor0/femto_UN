@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Dónde viven los datos en cada banco de pruebas</title>
+<desc id="d">Mapa de memoria del banco unitario del Quark (CoreTB/ISS, 256 KiB planos) frente al mapa del SoC (flash, RAM SPI y UART).</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L12 6L0 12z" fill="#f6f3ea" stroke="#1b211e" stroke-width="1.2"/></marker></defs>
+<rect width="960" height="470" rx="10" fill="#f6f3ea"/>
+<text x="30" y="28" font-size="12.5" font-weight="700" fill="#1b211e">Banco unitario del Quark (CoreTB · ISS)</text>
+<text x="500" y="28" font-size="12.5" font-weight="700" fill="#1b211e">SoC completo (tt_um_femto)</text>
+<rect x="30" y="50" width="400" height="110" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="40" y="72" font-size="11.5" font-weight="700" fill="#1b211e">código del programa</text>
+<text x="40" y="88" font-size="10" fill="#5d6862">0x00000 …</text>
+<text x="425" y="62" font-size="9.5" text-anchor="end" fill="#5d6862">0x00000</text>
+<rect x="30" y="170" width="400" height="50" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="40" y="192" font-size="11.5" font-weight="700" fill="#1b211e">RES_BASE = DATA_BASE</text>
+<text x="40" y="208" font-size="10" fill="#5d6862">buffer de resultados (store_result)</text>
+<text x="425" y="182" font-size="9.5" text-anchor="end" fill="#5d6862">0x20000</text>
+<rect x="30" y="230" width="400" height="50" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="40" y="252" font-size="11.5" font-weight="700" fill="#1b211e">base_ptr aleatorio</text>
+<text x="40" y="268" font-size="10" fill="#5d6862">x31 = 0x20200 · offsets ±0x200</text>
+<text x="425" y="242" font-size="9.5" text-anchor="end" fill="#5d6862">0x20200</text>
+<rect x="30" y="290" width="400" height="70" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="40" y="312" font-size="11.5" font-weight="700" fill="#1b211e">libre</text>
+<text x="40" y="328" font-size="10" fill="#5d6862">MEM_SIZE = 0x40000</text>
+<text x="425" y="302" font-size="9.5" text-anchor="end" fill="#5d6862">0x20600</text>
+<text x="40" y="385" font-size="10" fill="#5d6862">La memoria es plana y sin latencia propia; las esperas se simulan con rbusy/wbusy.</text>
+<rect x="500" y="50" width="430" height="80" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="510" y="72" font-size="11.5" font-weight="700" fill="#1b211e">FLASH 0x0000_0000 … 0x0000_FFFF</text>
+<text x="510" y="90" font-size="9.5" fill="#5d6862">código · NOP en 0x0 · datos const. (p. ej. FLASH_DATA 0x3000)</text>
+<text x="510" y="108" font-size="10" fill="#1b211e">flash.mem (4 MiB)</text>
+<rect x="500" y="150" width="430" height="80" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="510" y="172" font-size="11.5" font-weight="700" fill="#1b211e">RAM SPI 0x0001_0000 … 0x0001_FFFF</text>
+<text x="510" y="190" font-size="9.5" fill="#5d6862">solo lw/sw alineados · ram.mem[0] = 0x0001_0000 · sp = 0x1FFFC</text>
+<text x="510" y="208" font-size="10" fill="#1b211e">ram.mem (64 KiB)</text>
+<rect x="500" y="250" width="430" height="70" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="510" y="272" font-size="11.5" font-weight="700" fill="#1b211e">UART 0x0040_0000</text>
+<text x="510" y="290" font-size="9.5" fill="#5d6862">+0x08 dato TX/RX · +0x10 estado/control · LED en bit 2</text>
+<text x="510" y="308" font-size="10" fill="#1b211e">monitor: soc.uart</text>
+<text x="500" y="350" font-size="10" fill="#5d6862">Una dirección sin mapa cae en la flash (alias).</text>
+<text x="500" y="366" font-size="10" fill="#5d6862">Para leer la RAM desde el test: soc.ram.mem[addr - 0x10000].</text>
+<text x="30" y="430" font-size="10.5" fill="#5d6862">Atención: DATA_BASE (0x20000) es de rvlib/ISS; en el SoC la RAM acaba en 0x1FFFF. Los programas aleatorios solo valen en el banco unitario.</text>
+</svg>

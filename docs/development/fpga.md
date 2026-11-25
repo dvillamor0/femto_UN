@@ -12,12 +12,16 @@ lead: "El mismo RTL de src/ sintetizado para la Colorlight i9 (Lattice ECP5), co
 | FPGA | Lattice ECP5 LFE5U-45F-6BG381C (`--45k --package CABGA381 --speed 6`) |
 | Reloj | 25 MHz de la placa (pin P3) |
 | Módulo superior | `top_fpga` (`config/top_fpga.v`) |
-| Fuentes | `src/femto.v`, `src/femtorv32_quark.v`, `src/perip_uart.v`, `src/uart.v`, `src/MappedSPIMultidrop.v`, `config/top_fpga.v` |
+| Fuentes | `src/femto.v`, `src/femtorv32_quark.v`, `src/femto_regfile_sram.v`, `config/sky130_sram_32x32_1rw1r_fpga.v`, `src/perip_uart.v`, `src/uart.v`, `src/MappedSPIMultidrop.v`, `config/top_fpga.v` |
 | Restricciones | `config/colorlight_i9.lpf` |
 
 <div class="callout aviso" markdown="1">
 **No se usa `tt_um_femto.v` de la raíz.** Ese archivo es la *netlist* a nivel de compuertas de sky130 generada por el flujo ASIC y no se puede sintetizar para ECP5. El flujo toma el RTL de `src/`.
 </div>
+
+## El banco de registros en la FPGA {#sram}
+
+En el chip el banco de registros es una macro OpenRAM; en la FPGA esa macro no existe. `config/sky130_sram_32x32_1rw1r_fpga.v` define un módulo **con el mismo nombre e interfaz** (`sky130_sram_32x32_1rw1r`) y el mismo comportamiento ciclo a ciclo (lectura síncrona), escrito con una matriz de 32 palabras que Yosys puede sintetizar. Así `femto_regfile_sram.v` y el núcleo son idénticos en ASIC, simulación y FPGA. No incluye retardos ni valores `X`, por lo que es más permisivo que el modelo de simulación.
 
 ## Comandos {#comandos}
 
@@ -36,7 +40,7 @@ Los parámetros están en variables del `Makefile` (`FPGA_DEVICE`, `FPGA_FREQ`, 
 
 Hace de adaptador entre la interfaz de Tiny Tapeout y los pines de la FPGA:
 
-- `ui_in[2]` ← `uart_rx`; el resto de entradas dedicadas, a 0.
+- `ui_in[2]` ← `uart_rx`; el resto de entradas dedicadas, a 0, incluida `ui_in[3]` (la línea de interrupción queda inactiva).
 - `uo_out[0]`, `[1]`, `[2]` → `spi_sck`, `spi_cs_flash_n`, `spi_cs_ram_n`; `uo_out[6]` → `led`; `uo_out[7]` → `uart_tx`.
 - **Buffers triestado** para el bus `spi_io[3:0]`: para cada línea, `assign spi_io[i] = uio_oe[i] ? uio_out[i] : 1'bz;` y `uio_in[i] = spi_io[i]`. Yosys infiere de ahí las primitivas bidireccionales del ECP5.
 - `uio_in[7:4]` a 0 y `ena` a 1.

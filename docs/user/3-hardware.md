@@ -61,9 +61,8 @@ primes<50=0F
 
 y el LED encendido al final. Esa salida es la que figura en el informe de verificación; no se ha reproducido en hardware con este RTL.
 
-<div class="callout analisis" markdown="1">
-**Velocidad del puerto serie.** Con el reloj de 25 MHz y los parámetros actuales, el transmisor de la UART sale a unos **130 208 baudios**, no a 115 200 (véase [UART]({{ '/development/uart/' | relative_url }})).
-Si la terminal muestra caracteres basura, prueba a abrirla a 130208. Muchos adaptadores aceptan velocidades arbitrarias, pero no todos.
+<div class="callout nota" markdown="1">
+**Velocidad del puerto serie.** Con el reloj de 25 MHz, la UART actual sale a **115 207 baudios** (217 ciclos por bit), así que la terminal se abre a 115200. El divisor se calcula para 25 MHz: si la placa usa otro reloj, la velocidad cambia en proporción (véase [UART]({{ '/development/uart/' | relative_url }}#baudios)).
 </div>
 
 ## Si no aparece nada {#diagnostico}

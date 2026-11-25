@@ -12,7 +12,7 @@ lead: "Un microcontrolador RISC-V sin memoria interna. Ejecuta el código desde 
 <div class="spec"><b>4×2</b><span>tiles de Tiny Tapeout en sky130A</span></div>
 <div class="spec"><b>QSPI + SPI</b><span>flash y RAM comparten un único bus de 4 líneas</span></div>
 <div class="spec"><b>UART 8N1</b><span>más un LED controlado por software</span></div>
-<div class="spec"><b>10 pines</b><span>usados de los 24 disponibles del proyecto</span></div>
+<div class="spec"><b>11 pines</b><span>usados de los 24 disponibles del proyecto</span></div>
 </div>
 
 ## Qué es {#que-es}
@@ -39,6 +39,8 @@ de programa ni de datos: todo pasa por un único controlador SPI que atiende dos
 <a class="card" href="{{ '/user/hardware/' | relative_url }}"><small>Primeros pasos</small><strong>Prueba en hardware</strong><span>Conexiones, preparación de la flash y lectura por el puerto serie.</span></a>
 <a class="card" href="{{ '/development/spi-multidrop/' | relative_url }}"><small>Diseño</small><strong>Bus SPI multidrop</strong><span>El controlador único de flash y RAM, fase por fase.</span></a>
 <a class="card" href="{{ '/development/verificacion/' | relative_url }}"><small>Calidad</small><strong>Verificación</strong><span>Niveles de prueba, requisitos de aceptación y resultados medidos.</span></a>
+<a class="card" href="{{ '/development/test-lib/' | relative_url }}"><small>Calidad</small><strong>Librería test/lib</strong><span>Ensamblador, ISS, modelos SPI, banco del SoC y rutinas de firmware, con diagramas.</span></a>
+<a class="card" href="{{ '/development/crear-tests/' | relative_url }}"><small>Calidad</small><strong>Cómo crear tests</strong><span>Recetas por nivel, registro en el Makefile, depuración e interrupciones.</span></a>
 </div>
 
 Si buscas algo concreto:
@@ -51,17 +53,17 @@ Si buscas algo concreto:
 | Entender cómo se lee una instrucción de la flash | [Bus SPI multidrop]({{ '/development/spi-multidrop/' | relative_url }}) |
 | Sintetizar para la Colorlight i9 | [Prototipo en FPGA]({{ '/development/fpga/' | relative_url }}) |
 | Generar el GDS con LibreLane | [Flujo ASIC]({{ '/development/asic/' | relative_url }}) |
+| Escribir una prueba nueva | [Cómo crear tests]({{ '/development/crear-tests/' | relative_url }}) |
+| Consultar el ensamblador, el ISS o los modelos de memoria | [Librería test/lib]({{ '/development/test-lib/' | relative_url }}) |
 | Saber qué no funciona todavía | [Limitaciones conocidas]({{ '/development/limitaciones/' | relative_url }}) |
 
 ## Estado actual {#estado}
 
-<div class="callout aviso" markdown="1">
-**Lee esto antes de usar la UART.** Con `clk_freq = 25000000` el generador de baudios de `uart.v` produce **192 ciclos por bit**, es decir
-unos **130 208 baudios** y no 115 200. Las pruebas que dependen de la UART esperan 208 ciclos por bit y por eso fallan. El análisis completo está en
-[UART]({{ '/development/uart/' | relative_url }}) y la lista de pendientes en [Limitaciones conocidas]({{ '/development/limitaciones/' | relative_url }}).
+<div class="callout nota" markdown="1">
+**La UART ya sale a 115 200 baudios.** Desde la refactorización de `uart.v` en `main`, con `clk_freq = 25000000` cada bit dura **217 ciclos** (115 207 baudios, +0,006 %). Las pruebas aún asumen 208 ciclos por bit y sus resultados guardados son anteriores a este cambio: véase [UART]({{ '/development/uart/' | relative_url }}) y [Limitaciones conocidas]({{ '/development/limitaciones/' | relative_url }}).
 </div>
 
-- El núcleo **Quark** y el **controlador multidrop** pasan sus 20 pruebas unitarias cada uno.
+- El controlador **multidrop** pasa sus 20 pruebas unitarias y el banco de registros SRAM sus 6. El **Quark** pasa 19 de 20: falla la que esperaba que `ecall`/`ebreak` fueran nulas (ahora actúan como `mret`).
 - La RAM solo admite accesos de palabra completa y alineados (`lw`/`sw`); los accesos de byte y media palabra fallan.
 - El flujo ASIC y el de FPGA están automatizados con `make` (véase [Flujo ASIC]({{ '/development/asic/' | relative_url }}) y [Prototipo en FPGA]({{ '/development/fpga/' | relative_url }})).
 

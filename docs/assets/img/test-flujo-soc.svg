@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Anatomía de una prueba a nivel SoC</title>
+<desc id="d">Pasos de una prueba: new_prog, prologue, firmware, halt_loop, boot y espera/aserciones. Debajo, el detalle de boot().</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L12 6L0 12z" fill="#f6f3ea" stroke="#1b211e" stroke-width="1.2"/></marker></defs>
+<rect width="960" height="470" rx="10" fill="#f6f3ea"/>
+<rect x="20" y="30" width="140" height="92" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="90.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">1 · new_prog()</text>
+<text x="90.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">Prog nuevo</text>
+<text x="90.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">NOP en 0x0 (1ª</text>
+<text x="90.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">lectura se pierde)</text>
+<rect x="176" y="30" width="140" height="92" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="246.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">2 · prologue(p)</text>
+<text x="246.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">crt0: x1…x31 = 0</text>
+<text x="246.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">sp = 0x1FFFC</text>
+<text x="246.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">x28 = UART_BASE</text>
+<path d="M160 76 L176 76" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="332" y="30" width="140" height="92" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="402.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">3 · firmware</text>
+<text x="402.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">p.emit(...)</text>
+<text x="402.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">uart_puts · put_hex</text>
+<text x="402.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">store_result</text>
+<path d="M316 76 L332 76" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="488" y="30" width="140" height="92" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="558.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">4 · halt_loop(p)</text>
+<text x="558.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">JAL x0, 0</text>
+<text x="558.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">devuelve la dirección</text>
+<text x="558.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">del halt</text>
+<path d="M472 76 L488 76" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="644" y="30" width="140" height="92" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="714.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">5 · await boot()</text>
+<text x="714.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">crea Soc, carga</text>
+<text x="714.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">flash, suelta reset</text>
+<text x="714.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">y comprueba arranque</text>
+<path d="M628 76 L644 76" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="800" y="30" width="140" height="92" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="870.0" y="48" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">6 · verificar</text>
+<text x="870.0" y="65" font-size="10.5" text-anchor="middle" fill="#5d6862">run_until_uart(...)</text>
+<text x="870.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">run_to_halt(h, n)</text>
+<text x="870.0" y="93" font-size="10.5" text-anchor="middle" fill="#5d6862">assert …</text>
+<path d="M784 76 L800 76" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M714 122 L714 160" stroke="#1b211e" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#a)"/>
+<text x="20" y="168" font-size="12" font-weight="700" fill="#1b211e">Dentro de boot(dut, prog, …)</text>
+<rect x="20" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="90.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">flash_image(prog)</text>
+<text x="90.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">palabras → bytes</text>
+<text x="90.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">little-endian</text>
+<rect x="176" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="246.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">Soc.start()</text>
+<text x="246.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">Clock · ena=1</text>
+<text x="246.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">rst_n=0 · 12 ciclos</text>
+<path d="M160 228 L176 228" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="332" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="402.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">cargar memorias</text>
+<text x="402.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">flash.mem ← imagen</text>
+<text x="402.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">ram.mem ← ram_image</text>
+<path d="M316 228 L332 228" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="488" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="558.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">estado basura</text>
+<text x="558.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">regfile u_sram.mem</text>
+<text x="558.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">y cycles aleatorios</text>
+<text x="558.0" y="245" font-size="10.5" text-anchor="middle" fill="#5d6862">(seed)</text>
+<path d="M472 228 L488 228" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="644" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="714.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">procesos</text>
+<text x="714.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">flash.run · ram.run</text>
+<text x="714.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">uart.run</text>
+<text x="714.0" y="245" font-size="10.5" text-anchor="middle" fill="#5d6862">_led_watch</text>
+<path d="M628 228 L644 228" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="800" y="182" width="140" height="92" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="870.0" y="200" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">boot_check()</text>
+<text x="870.0" y="217" font-size="10.5" text-anchor="middle" fill="#5d6862">compara 1ª instr.</text>
+<text x="870.0" y="231" font-size="10.5" text-anchor="middle" fill="#5d6862">leída con la de</text>
+<text x="870.0" y="245" font-size="10.5" text-anchor="middle" fill="#5d6862">la flash @4</text>
+<path d="M784 228 L800 228" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="20" y="306" font-size="12" font-weight="700" fill="#1b211e">Después, la prueba lee el resultado de tres formas</text>
+<rect x="20" y="320" width="296" height="62" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="168.0" y="338" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">por la UART</text>
+<text x="168.0" y="355" font-size="10.5" text-anchor="middle" fill="#5d6862">soc.uart.text() / .bytes</text>
+<text x="168.0" y="369" font-size="10.5" text-anchor="middle" fill="#5d6862">run_until_uart("OK\n", n)</text>
+<rect x="332" y="320" width="296" height="62" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="480.0" y="338" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">por registros</text>
+<text x="480.0" y="355" font-size="10.5" text-anchor="middle" fill="#5d6862">soc.reg(i), soc.pc()</text>
+<text x="480.0" y="369" font-size="10.5" text-anchor="middle" fill="#5d6862">solo integración / depuración</text>
+<rect x="644" y="320" width="296" height="62" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="792.0" y="338" font-size="11.5" font-weight="700" text-anchor="middle" fill="#1b211e">por memoria</text>
+<text x="792.0" y="355" font-size="10.5" text-anchor="middle" fill="#5d6862">soc.ram.get_word_be(a)</text>
+<text x="792.0" y="369" font-size="10.5" text-anchor="middle" fill="#5d6862">soc.flash.transactions[]</text>
+<text x="20" y="412" font-size="10.5" fill="#5d6862">Presupuesto típico: ~112 ciclos por instrucción desde flash (QSPI) → espera cientos de miles de ciclos, no miles.</text>
+<text x="20" y="430" font-size="10.5" fill="#5d6862">Si boot_check() falla lanza BootFailure (subclase de AssertionError) con el comando visto por la flash.</text>
+</svg>

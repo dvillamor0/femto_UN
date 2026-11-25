@@ -16,7 +16,7 @@ Salen de `info.yaml`:
 | Módulo superior | `tt_um_femto` |
 | Tamaño | 4×2 tiles (un tile mide unos 167×108 µm) |
 | Reloj | `clock_hz: 0` (sin frecuencia fija declarada); nominal de 25 MHz |
-| Fuentes | `femto.v`, `MappedSPIMultidrop.v`, `perip_uart.v`, `uart.v`, `femtorv32_quark.v` |
+| Fuentes | `femto.v`, `MappedSPIMultidrop.v`, `perip_uart.v`, `uart.v`, `femtorv32_quark.v`, `femto_regfile_sram.v`, `sky130_sram_32x32_1rw1r_bb.v` |
 | Versión de `info.yaml` | 6 |
 
 Las fuentes deben estar en `src/` y listarse una por una. Cualquier archivo nuevo del diseño tiene que añadirse a `source_files`, y también a `SOC_SRC` en `test/Makefile` y a `FPGA_SRC` en el `Makefile` raíz.
@@ -35,6 +35,25 @@ Las fuentes deben estar en `src/` y listarse una por una. Cualquier archivo nuev
 | `RUN_CTS` | 1 | Síntesis del árbol de reloj |
 
 El archivo marca como intocable todo lo que está bajo «DO NOT CHANGE ANYTHING BELOW THIS POINT». La restricción de 25 ns es independiente del reloj nominal de 25 MHz de la placa (40 ns): da margen frente al nominal.
+
+## Macro SRAM del banco de registros {#macro}
+
+El banco de registros del núcleo no son flip-flops sino una **macro OpenRAM** `sky130_sram_32x32_1rw1r` (32 palabras de 32 bits, un puerto de lectura/escritura y otro de solo lectura). El diseño la instancia a través de `femto_regfile_sram.v`; para Yosys existe una caja negra en `src/sky130_sram_32x32_1rw1r_bb.v`.
+
+`src/config.json` declara la macro en el bloque `MACROS` y la coloca en `femto0.CPU.regfile.u_sram`, en la posición `[15, 30]` con orientación `N`. Además referencia sus archivos mediante `EXTRA_LEFS`, `EXTRA_GDS_FILES` y `EXTRA_LIBS`, y conecta su alimentación con `PDN_MACRO_CONNECTIONS` (`vccd1` y `vssd1`).
+
+| Archivo en `macros/` | Origen | Estado en la rama `dvillamor` |
+|---|---|---|
+| `sky130_sram_32x32_1rw1r.v` | Modelo funcional para simulación | Modelo de sustitución escrito a mano |
+| `sky130_sram_32x32_1rw1r.lef` | OpenRAM | **Falta** |
+| `sky130_sram_32x32_1rw1r.gds` | OpenRAM | **Falta** |
+| `sky130_sram_32x32_1rw1r_TT_1p8V_25C.lib` | OpenRAM | **Falta** |
+
+<div class="callout aviso" markdown="1">
+Mientras falten el LEF, el GDS y el `.lib`, `make harden` no puede completar el flujo: `src/config.json` apunta a archivos que no existen. La macro se genera con OpenRAM a partir de `open_ram/sram_32x32_1rw1r_config.py`; el `macros/README.md` pide copiar a esa carpeta los archivos producidos y comprobar que los pines del LEF coinciden con la caja negra. Si OpenRAM añade una columna de reserva (`spare_wen0` y buses de 33 bits) habrá que ajustar la caja negra, el envoltorio y el modelo.
+</div>
+
+La simulación no se ve afectada: usa el modelo funcional de `macros/`. Para la FPGA se sustituye por `config/sky130_sram_32x32_1rw1r_fpga.v` (véase [Prototipo en FPGA]({{ '/development/fpga/' | relative_url }})).
 
 ## Endurecimiento con `make` {#harden}
 

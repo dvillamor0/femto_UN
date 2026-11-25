@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 630" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Clases de test/lib</title>
+<desc id="d">Diagrama de clases: Prog, ISS, Soc, SpiTarget, QspiFlashTarget, interfaces de pines y UartMonitor, con sus relaciones.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L12 6L0 12z" fill="#f6f3ea" stroke="#1b211e" stroke-width="1.2"/></marker></defs>
+<rect width="960" height="630" rx="10" fill="#f6f3ea"/>
+<rect x="20" y="20" width="230" height="146" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="135.0" y="39" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">Prog</text>
+<line x1="20" y1="44" x2="250" y2="44" stroke="#b24d17"/>
+<text x="28" y="58" font-size="10" fill="#1b211e">words: {dir: palabra}</text>
+<text x="28" y="72" font-size="10" fill="#1b211e">pc · n_res</text>
+<line x1="20" y1="82" x2="250" y2="82" stroke="#b24d17" stroke-dasharray="3 3"/>
+<text x="28" y="92" font-size="10" fill="#5d6862">org(addr)</text>
+<text x="28" y="106" font-size="10" fill="#5d6862">emit(*palabras)</text>
+<text x="28" y="120" font-size="10" fill="#5d6862">init_results()</text>
+<text x="28" y="134" font-size="10" fill="#5d6862">store_result(rs)</text>
+<text x="28" y="148" font-size="10" fill="#5d6862">halt() → dir</text>
+<rect x="20" y="220" width="230" height="104" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="135.0" y="239" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">ISS</text>
+<line x1="20" y1="244" x2="250" y2="244" stroke="#b24d17"/>
+<text x="28" y="258" font-size="10" fill="#1b211e">x[32] · pc · mem</text>
+<text x="28" y="272" font-size="10" fill="#1b211e">trace: [pc…]</text>
+<line x1="20" y1="282" x2="250" y2="282" stroke="#b24d17" stroke-dasharray="3 3"/>
+<text x="28" y="292" font-size="10" fill="#5d6862">step()</text>
+<text x="28" y="306" font-size="10" fill="#5d6862">run(halt_addr, max_steps)</text>
+<rect x="290" y="20" width="350" height="258" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="465.0" y="39" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">Soc</text>
+<line x1="290" y1="44" x2="640" y2="44" stroke="#0d6a5c"/>
+<text x="298" y="58" font-size="10" fill="#1b211e">dut · profile · clk_ns</text>
+<text x="298" y="72" font-size="10" fill="#1b211e">ui · uio · drv{flash, ram}</text>
+<text x="298" y="86" font-size="10" fill="#1b211e">flash: QspiFlashTarget</text>
+<text x="298" y="100" font-size="10" fill="#1b211e">ram: SpiTarget</text>
+<text x="298" y="114" font-size="10" fill="#1b211e">uart: UartMonitor</text>
+<text x="298" y="128" font-size="10" fill="#1b211e">led_events: [(ns, valor)]</text>
+<text x="298" y="142" font-size="10" fill="#1b211e">cpu = dut.femto0.CPU</text>
+<line x1="290" y1="152" x2="640" y2="152" stroke="#0d6a5c" stroke-dasharray="3 3"/>
+<text x="298" y="162" font-size="10" fill="#5d6862">set_ui(bit, v) · drive(who, v)</text>
+<text x="298" y="176" font-size="10" fill="#5d6862">start(flash_image, ram_image, seed…)</text>
+<text x="298" y="190" font-size="10" fill="#5d6862">run_cycles(n)</text>
+<text x="298" y="204" font-size="10" fill="#5d6862">run_until(cond, max, step)</text>
+<text x="298" y="218" font-size="10" fill="#5d6862">run_until_uart(text, max)</text>
+<text x="298" y="232" font-size="10" fill="#5d6862">pc() · state() · reg(i)</text>
+<text x="298" y="246" font-size="10" fill="#5d6862">boot_check() · cpu_started()</text>
+<text x="298" y="260" font-size="10" fill="#5d6862">run_to_halt(halt_addr, max)</text>
+<rect x="680" y="20" width="260" height="160" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="810.0" y="39" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">SpiTarget</text>
+<line x1="680" y1="44" x2="940" y2="44" stroke="#0d6a5c"/>
+<text x="688" y="58" font-size="10" fill="#1b211e">pins · kind · profile</text>
+<text x="688" y="72" font-size="10" fill="#1b211e">mem: bytearray</text>
+<text x="688" y="86" font-size="10" fill="#1b211e">transactions: [dict]</text>
+<text x="688" y="100" font-size="10" fill="#1b211e">cur · log</text>
+<line x1="680" y1="110" x2="940" y2="110" stroke="#0d6a5c" stroke-dasharray="3 3"/>
+<text x="688" y="120" font-size="10" fill="#5d6862">set_word_be(a, v)</text>
+<text x="688" y="134" font-size="10" fill="#5d6862">get_word_be(a)</text>
+<text x="688" y="148" font-size="10" fill="#5d6862">load_image(base, data)</text>
+<text x="688" y="162" font-size="10" fill="#5d6862">run()  (corrutina)</text>
+<rect x="680" y="250" width="260" height="118" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="810.0" y="269" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">QspiFlashTarget</text>
+<line x1="680" y1="274" x2="940" y2="274" stroke="#0d6a5c"/>
+<text x="688" y="288" font-size="10" fill="#1b211e">QREAD = 0xEB</text>
+<text x="688" y="302" font-size="10" fill="#1b211e">N_CMD 8 · N_ADDR 6</text>
+<text x="688" y="316" font-size="10" fill="#1b211e">N_MODE 2 · N_DUMMY 4 · N_DATA 8</text>
+<line x1="680" y1="326" x2="940" y2="326" stroke="#0d6a5c" stroke-dasharray="3 3"/>
+<text x="688" y="336" font-size="10" fill="#5d6862">_rising() · _falling()</text>
+<text x="688" y="350" font-size="10" fill="#5d6862">(solo lectura quad)</text>
+<rect x="680" y="400" width="260" height="104" rx="4" fill="#e5e1d4" stroke="#7b857f" stroke-width="1.6"/>
+<text x="810.0" y="419" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">Pines (interfaz)</text>
+<line x1="680" y1="424" x2="940" y2="424" stroke="#7b857f"/>
+<text x="688" y="438" font-size="10" fill="#1b211e">SocPins · DirectPins · MdPins</text>
+<text x="688" y="452" font-size="10" fill="#1b211e">triggers: [Edge…]</text>
+<line x1="680" y1="462" x2="940" y2="462" stroke="#7b857f" stroke-dasharray="3 3"/>
+<text x="688" y="472" font-size="10" fill="#5d6862">read() → (sck, cs, mosi|nibble)</text>
+<text x="688" y="486" font-size="10" fill="#5d6862">drive_miso(v)</text>
+<rect x="290" y="340" width="350" height="118" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="465.0" y="359" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">UartMonitor</text>
+<line x1="290" y1="364" x2="640" y2="364" stroke="#0d6a5c"/>
+<text x="298" y="378" font-size="10" fill="#1b211e">soc · bit=7 · cpb=208 · clk_ns</text>
+<text x="298" y="392" font-size="10" fill="#1b211e">bytes · errors</text>
+<text x="298" y="406" font-size="10" fill="#1b211e">t_first_start · edges</text>
+<line x1="290" y1="416" x2="640" y2="416" stroke="#0d6a5c" stroke-dasharray="3 3"/>
+<text x="298" y="426" font-size="10" fill="#5d6862">text() → str</text>
+<text x="298" y="440" font-size="10" fill="#5d6862">run()  (decodifica 8N1 por tiempo)</text>
+<path d="M135 166 L135 220" fill="none" stroke="#1b211e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#a)"/>
+<text x="143" y="188" font-size="10" fill="#5d6862">words → mem</text>
+<path d="M640 90 L680 90" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="648" y="84" font-size="10" fill="#5d6862">ram</text>
+<path d="M640 160 L660 160 L660 290 L680 290" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="648" y="154" font-size="10" fill="#5d6862">flash</text>
+<path d="M465 278 L465 340" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="473" y="330" font-size="10" fill="#5d6862">uart</text>
+<path d="M810 180 L810 250" stroke="#1b211e" stroke-width="1.5" fill="none" marker-end="url(#tri)"/>
+<text x="818" y="202" font-size="10" fill="#5d6862">hereda</text>
+<path d="M810 368 L810 400" fill="none" stroke="#1b211e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#a)"/>
+<text x="818" y="392" font-size="10" fill="#5d6862">usa</text>
+<text x="20" y="520" font-size="12" font-weight="700" fill="#1b211e">Relaciones</text>
+<text x="20" y="540" font-size="10.5" fill="#5d6862">· Soc crea una SocPins por esclavo y la pasa a SpiTarget.</text>
+<text x="20" y="558" font-size="10.5" fill="#5d6862">· SpiTarget solo usa pins.read() y pins.drive_miso().</text>
+<text x="20" y="576" font-size="10.5" fill="#5d6862">· MdBench (unit_multidrop) reutiliza los mismos esclavos con MdPins.</text>
+<text x="20" y="594" font-size="10.5" fill="#5d6862">· Prog es solo un diccionario de palabras: el ISS y la flash lo reciben como bytes.</text>
+</svg>

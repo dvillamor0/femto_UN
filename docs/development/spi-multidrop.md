@@ -66,7 +66,7 @@ El semiperiodo de SCK es configurable por parámetro, en ciclos de `clk`:
 | `FLASH_DIV` | 2 | `clk / 4` | 28 × 4 = **112** | 4,48 µs, SCK de 6,25 MHz |
 | `RAM_DIV` | 5 | `clk / 10` | 64 × 10 = **640** | 25,6 µs, SCK de 2,5 MHz |
 
-Estimación sobre estas cifras: con la flash en el camino, una instrucción aritmética cuesta alrededor de 115–120 ciclos (112 del bus más 3 de CPU), es decir, unos 200 000 instrucciones por segundo a 25 MHz;
+Estimación sobre estas cifras: con la flash en el camino, una instrucción aritmética cuesta alrededor de 115–120 ciclos (112 del bus más 4 de CPU), es decir, unos 200 000 instrucciones por segundo a 25 MHz;
 una carga o un almacenamiento sobre la RAM suma otros 640 ciclos y baja a unas 33 000 instrucciones por segundo.
 
 El **muestreo** se hace un ciclo de reloj después de cada flanco de subida de SCK (`smp_q`), con SCK estable. Todo el módulo opera en el flanco de **bajada** de `clk`.

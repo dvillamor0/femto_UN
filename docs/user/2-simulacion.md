@@ -22,7 +22,7 @@ El `Makefile` de la raíz delega en `test/`, así que `make acceptance` y `make 
 ```bash
 cd test
 make acceptance        # lo predeterminado, y lo único que corre el CI
-make unit              # unit-quark, unit-multidrop y unit-uart
+make unit              # unit-quark, unit-regfile, unit-multidrop y unit-uart
 make integration       # 13 pruebas del SoC completo
 make integration-isa   # una prueba por instrucción RV32I (40)
 make functional        # 15 programas RV32I sobre el SoC
@@ -42,7 +42,7 @@ Cada objetivo escribe `results/standard/<nivel>.xml`. Ejecútalos **uno tras otr
 ### Cuánto tarda
 
 Las pruebas del SoC completo simulan millones de ciclos porque cada instrucción necesita más de cien ciclos de reloj para llegar desde la flash.
-Según el README del repositorio, en un contenedor de pruebas:
+Órdenes de magnitud observados en una ejecución anterior, en un contenedor de pruebas:
 
 | Objetivo | Tiempo aproximado |
 |---|---|
@@ -53,7 +53,7 @@ Según el README del repositorio, en un contenedor de pruebas:
 ## Cómo está construida una prueba {#anatomia}
 
 Las pruebas de nivel SoC no usan un `.v` de banco de pruebas: **cocotb** maneja los pines de `tt_um_femto` directamente y hace de placa.
-La biblioteca de `test/lib/` aporta las piezas:
+La biblioteca de `test/lib/` aporta las piezas (referencia completa en [Librería test/lib]({{ '/development/test-lib/' | relative_url }}); para escribir una prueba nueva, [Cómo crear tests]({{ '/development/crear-tests/' | relative_url }})):
 
 | Archivo | Contenido |
 |---|---|
@@ -77,8 +77,7 @@ El programa se ensambla en Python, se coloca en el modelo de flash y el monitor 
 con valores aleatorios para imitar el silicio real (es lo que comprueba el requisito REQ-07).
 
 <div class="callout analisis" markdown="1">
-El monitor de UART de `test/lib/soc.py` asume **208 ciclos por bit** (`UART_CYCLES_PER_BIT = 208`), mientras que `femto.v` configura la UART a 25 MHz, lo que da **192**.
-Por eso fallan todas las pruebas que dependen de que el chip transmita por UART. Detalle en [UART]({{ '/development/uart/' | relative_url }}).
+El monitor de UART de `test/lib/soc.py` asume **208 ciclos por bit** (`UART_CYCLES_PER_BIT = 208`), valor de la UART anterior; la UART actual de `uart.v` usa **217**. Por cálculo, el monitor aún muestrea dentro de cada bit (margen mínimo de unos 23 ciclos), pero conviene actualizar la constante. Detalle en [UART]({{ '/development/uart/' | relative_url }}#pruebas).
 </div>
 
 ## Compilar firmware en C {#firmware}

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" role="img" aria-labelledby="t d">
+<title id="t">Arquitectura de test/lib</title>
+<desc id="d">Dependencias entre rvlib, spimodels, soc y fw, y qué pruebas importan cada módulo.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1b211e"/></marker>
+<marker id="tri" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L12 6L0 12z" fill="#f6f3ea" stroke="#1b211e" stroke-width="1.2"/></marker></defs>
+<rect width="960" height="480" rx="10" fill="#f6f3ea"/>
+<rect x="30" y="44" width="170" height="62" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="115.0" y="62" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">unit_multidrop</text>
+<text x="115.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">test_unit_multidrop.py</text>
+<rect x="215" y="44" width="170" height="62" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="300.0" y="62" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">unit_uart</text>
+<text x="300.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">test_unit_uart.py</text>
+<rect x="400" y="44" width="170" height="62" rx="4" fill="#f6e1d0" stroke="#b24d17" stroke-width="1.6"/>
+<text x="485.0" y="62" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">unit_quark</text>
+<text x="485.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">test_unit_quark.py</text>
+<rect x="620" y="44" width="310" height="62" rx="4" fill="#fffdf6" stroke="#1b211e" stroke-width="1.6"/>
+<text x="775.0" y="62" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">integración · funcional</text>
+<text x="775.0" y="79" font-size="10.5" text-anchor="middle" fill="#5d6862">e2e · aceptación  (from rvlib/soc/fw import *)</text>
+<rect x="640" y="150" width="290" height="62" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="785.0" y="168" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">fw.py</text>
+<text x="785.0" y="185" font-size="10.5" text-anchor="middle" fill="#5d6862">prologue · put_hex · put_char</text>
+<text x="785.0" y="199" font-size="10.5" text-anchor="middle" fill="#5d6862">build_isa_selftest</text>
+<rect x="640" y="250" width="290" height="62" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="785.0" y="268" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">soc.py</text>
+<text x="785.0" y="285" font-size="10.5" text-anchor="middle" fill="#5d6862">Soc · boot() · crt0 · uart_putc</text>
+<text x="785.0" y="299" font-size="10.5" text-anchor="middle" fill="#5d6862">run_until_uart · run_to_halt</text>
+<rect x="30" y="360" width="270" height="70" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="165.0" y="378" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">spimodels.py</text>
+<text x="165.0" y="395" font-size="10.5" text-anchor="middle" fill="#5d6862">SpiTarget · QspiFlashTarget</text>
+<text x="165.0" y="409" font-size="10.5" text-anchor="middle" fill="#5d6862">SocPins · DirectPins · UartMonitor</text>
+<text x="165.0" y="423" font-size="10.5" text-anchor="middle" fill="#5d6862">geti · getm</text>
+<rect x="330" y="360" width="310" height="70" rx="4" fill="#d8ece6" stroke="#0d6a5c" stroke-width="1.6"/>
+<text x="485.0" y="378" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1b211e">rvlib.py</text>
+<text x="485.0" y="395" font-size="10.5" text-anchor="middle" fill="#5d6862">ensamblador R I SH L S B LUI JAL</text>
+<text x="485.0" y="409" font-size="10.5" text-anchor="middle" fill="#5d6862">Prog · ISS · alu · br_taken</text>
+<text x="485.0" y="423" font-size="10.5" text-anchor="middle" fill="#5d6862">gen_random_program</text>
+<path d="M115 106 L115 360" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M300 106 L250 360" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M485 106 L485 360" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M775 106 L775 150" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<path d="M785 212 L785 250" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="793" y="236" font-size="10" fill="#5d6862">importa</text>
+<path d="M700 312 L600 360" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="668" y="345" font-size="10" fill="#5d6862">importa</text>
+<path d="M785 312 L785 452 L165 452 L165 430" fill="none" stroke="#1b211e" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="800" y="400" font-size="10" fill="#5d6862">importa</text>
+<text x="30" y="474" font-size="10" fill="#5d6862">soc.py y fw.py también importan rvlib (Prog, I, L, S, B, li…). PYTHONPATH apunta a lib/ y a cada carpeta de tests.</text>
+</svg>

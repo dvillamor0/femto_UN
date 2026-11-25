@@ -16,7 +16,7 @@ lead: "Cómo se conectan la CPU, el controlador SPI y la UART dentro de femto.v,
 `tt_um_femto` hace tres cosas:
 
 - **Registra el *reset* en el flanco de bajada** (`always @(negedge clk) resetn <= rst_n`), de modo que llega estable a todos los bloques.
-- **Reparte los pines** según `info.yaml` (véase [Introducción]({{ '/user/introduccion/' | relative_url }})). `uo_out[5:3]` se fijan a 0 y `uio[7:4]` quedan como entradas.
+- **Reparte los pines** según `info.yaml` (véase [Introducción]({{ '/user/introduccion/' | relative_url }})). `uo_out[5:3]` se fijan a 0 y `uio[7:4]` quedan como entradas. `ui_in[3]` entra a la CPU como `interrupt_request`.
 - **Agrupa las señales de datos** del bus SPI: `spi_io_o`, `spi_io_oe` y `spi_io_i` van directo a `uio_out[3:0]`, `uio_oe[3:0]` y `uio_in[3:0]`, sin `inout`.
 
 ## Decodificador de direcciones {#decodificador}

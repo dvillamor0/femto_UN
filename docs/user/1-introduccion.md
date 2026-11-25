@@ -19,7 +19,9 @@ Dos consecuencias prácticas:
 ## Estructura del repositorio {#estructura}
 
 ```text
-src/            RTL del diseño (femto.v, femtorv32_quark.v, MappedSPIMultidrop.v, perip_uart.v, uart.v)
+src/            RTL del diseño (femto.v, femtorv32_quark.v, femto_regfile_sram.v, MappedSPIMultidrop.v, perip_uart.v, uart.v)
+macros/         Macro SRAM del banco de registros (hoy solo el modelo de simulación)
+open_ram/       Configuración de OpenRAM para generar la macro
 test/           Suite de verificación cocotb + Icarus (lib/, unit/, integration/, functional/, e2e/, acceptance/)
 test/firmware/  crt0.S, link.ld, hello.c y su Makefile
 config/         Envoltorio y pines para la FPGA Colorlight i9 (top_fpga.v, colorlight_i9.lpf)
@@ -78,6 +80,7 @@ Definidos en `info.yaml`. Los demás pines del proyecto no se usan.
 | Pin de Tiny Tapeout | Señal | Dirección | Se conecta a |
 |---|---|---|---|
 | `ui[2]` | `RXD` | entrada | TX del dongle USB-serie |
+| `ui[3]` | `IRQ` | entrada | Petición de interrupción (activa en alto); sin uso, déjala a 0 |
 | `uo[0]` | `spi_sck` | salida | CLK de flash y RAM |
 | `uo[1]` | `spi_cs_flash_n` | salida | CS# de la flash |
 | `uo[2]` | `spi_cs_ram_n` | salida | CS# de la RAM |
@@ -91,7 +94,7 @@ Definidos en `info.yaml`. Los demás pines del proyecto no se usan.
 ## Qué hay que saber antes de escribir firmware {#reglas}
 
 <div class="callout aviso" markdown="1">
-**Los registros arrancan con valores indeterminados.** El banco de registros del Quark no tiene *reset*; el código de arranque debe poner a cero
+**Los registros arrancan con valores indeterminados.** El banco de registros del Quark es una SRAM sin *reset*; el código de arranque debe poner a cero
 todo lo que vaya a usar antes de emplear la pila. `test/firmware/crt0.S` ya lo hace.
 </div>
 
@@ -99,8 +102,9 @@ todo lo que vaya a usar antes de emplear la pila. `test/firmware/crt0.S` ya lo h
   arreglos globales están, por tanto, fuera de límites mientras vivan en la RAM. La causa está en [Bus SPI multidrop]({{ '/development/spi-multidrop/' | relative_url }}).
 - **Código y constantes en la flash.** Ahí sí funcionan todos los anchos, de modo que las cadenas de texto se leen sin problema con `lbu`.
 - **Sin multiplicación ni división por hardware.** El compilador las resuelve con rutinas de `libgcc` que cuestan decenas o cientos de instrucciones.
-- **`ecall`, `ebreak` y cualquier instrucción `SYSTEM` devuelven el contador de ciclos** (se ejecutan como `RDCYCLE`). `fence` no está soportada.
-- **El reloj condiciona la UART.** Véase la nota de la portada y la página de [UART]({{ '/development/uart/' | relative_url }}).
+- **`ecall` y `ebreak` se ejecutan como `mret`**: saltan a `mepc`. No los uses; no hay excepciones. `fence` no está soportada. El contador de ciclos se lee con `rdcycle` (`cycle`/`cycleh`).
+- **Interrupciones.** `ui[3]` genera una interrupción si el programa activó `mstatus.MIE` y escribió la rutina en `mtvec`; termina con `mret`. Véase [CPU]({{ '/development/cpu/' | relative_url }}#interrupciones).
+- **El reloj condiciona la UART.** El divisor está calculado para 25 MHz (217 ciclos por bit); véase la página de [UART]({{ '/development/uart/' | relative_url }}).
 
 Los archivos `crt0.S` y `link.ld` de `test/firmware/` incluyen además algunas precauciones heredadas de una versión anterior del silicio (por ejemplo, un `nop` en la dirección 0 y
 máscaras de 31 bits al leer la RAM). Con el controlador actual no se han verificado como necesarias; se conservan por prudencia.

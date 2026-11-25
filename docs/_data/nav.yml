@@ -20,4 +20,6 @@
 - title: Calidad
   items:
     - { title: Verificación, url: /development/verificacion/ }
+    - { title: Librería test/lib, url: /development/test-lib/ }
+    - { title: Cómo crear tests, url: /development/crear-tests/ }
     - { title: Limitaciones conocidas, url: /development/limitaciones/ }

@@ -16,28 +16,27 @@ Cada entrada indica de dónde sale la afirmación:
 
 | ID | Área | Resumen | Origen | Gravedad |
 |---|---|---|---|---|
-| L1 | UART | Con 25 MHz, el transmisor sale a unos 130 208 baudios en lugar de 115 200 | RTL | Alta |
-| L2 | UART | El bit de parada del receptor se evalúa un bit tarde; fallan las tramas consecutivas | RTL | Media |
+| L1 | UART | **Resuelta en `main`**: la UART nueva da 217 ciclos por bit (115 207 baudios a 25 MHz) | RTL | — |
+| L2 | UART | **Resuelta en `main`**: el receptor nuevo evalúa el bit de parada a mitad de bit | RTL | — |
 | L3 | RAM | Los accesos de byte y media palabra no funcionan; solo `lw` y `sw` alineados | RTL y medido | Alta |
-| L4 | CPU | `ecall`, `ebreak` y `SYSTEM` leen el contador de ciclos; no hay `fence` | Diseño | Info |
+| L4 | CPU | `ecall` y `ebreak` actúan como `mret`; no hay excepciones ni `fence` | Diseño | Media |
 | L5 | CPU | Direcciones truncadas a 24 bits | Diseño | Info |
-| L6 | CPU | Los registros y el contador de ciclos arrancan sin valor definido | Diseño | Media |
+| L6 | CPU | Los registros (macro SRAM) arrancan sin valor definido | Diseño | Media |
 | L7 | SoC | Las direcciones sin mapear hacen alias a la flash; escribir en la flash no hace nada | Diseño | Info |
 | L8 | Memorias | Requieren flash con QE activo y RAM con dirección de 3 bytes | Diseño | Media |
 | L9 | FPGA | Lazo combinacional: `nextpnr` necesita `--ignore-loops` | RTL | Media |
-| L10 | Pruebas | Las pruebas esperan 208 ciclos por bit de UART; el CI de aceptación probablemente falle | Medido | Media |
+| L10 | Pruebas | La biblioteca de pruebas aún asume 208 ciclos por bit (la UART nueva usa 217) y los resultados guardados son anteriores | Medido | Media |
+| L11 | ASIC | Faltan el LEF, el GDS y el `.lib` de la macro SRAM; el flujo de GDS no puede completarse | Medido | Alta |
 
-## L1 · Velocidad de la UART {#l1}
+## L1 · Velocidad de la UART (resuelta) {#l1}
 
-Con `clk_freq = 25000000` el generador de baudios da **192 ciclos por bit**, es decir 130 208 baudios (+13 %). Ninguna combinación de 24, 25 y 27 MHz con la fórmula actual queda en el ±3 %.
+El generador de baudios anterior daba 192 ciclos por bit (130 208 baudios, +13 %). El *commit* `0b692c7` reescribió `uart.v` con contadores y redondeo al entero más próximo: con 25 MHz salen **217 ciclos por bit, 115 207 baudios** (+0,006 %). Detalle en [UART]({{ '/development/uart/' | relative_url }}#baudios).
 
-**Qué hacer.** Abre la terminal a 130208 baudios mientras no se corrija, o aplica alguna de las opciones descritas en [UART]({{ '/development/uart/' | relative_url }}).
+**Qué tener en cuenta.** El divisor depende del parámetro `freq_hz` (25 MHz), no del reloj real: a otro reloj, la velocidad se desvía en proporción (a 24 MHz sería −3,99 %).
 
-## L2 · Bit de parada del receptor {#l2}
+## L2 · Bit de parada del receptor (resuelta) {#l2}
 
-`rx_bitcount == 10` evalúa el bit de parada un bit después de haberlo desplazado. Con tramas consecutivas sin pausa puede ver el siguiente bit de inicio como un error de trama y perder el byte.
-
-**Qué hacer.** Deja al menos un carácter de pausa entre bytes enviados desde el PC. Corresponde al defecto `DEF-U2` del catálogo de pruebas.
+El receptor nuevo evalúa el bit de parada a mitad de bit y vuelve a `IDLE` sin esperar más, de modo que reconoce de inmediato una trama consecutiva. Es una conclusión de leer el RTL; no se ha simulado aquí.
 
 ## L3 · Accesos de byte y media palabra a la RAM {#l3}
 
@@ -50,9 +49,9 @@ Las pruebas `i06`, `f10`, `sb` y `sh` fallan por esto.
 - No coloques `char`, `short` ni estructuras compactas en la RAM.
 - Las constantes en flash no tienen esta restricción: `lb`, `lh`, `lbu` y `lhu` funcionan.
 
-## L4 · `ecall`, `ebreak`, CSR y `fence` {#l4}
+## L4 · `ecall`, `ebreak`, excepciones y `fence` {#l4}
 
-Cualquier instrucción con *opcode* `SYSTEM` devuelve el contador de ciclos. `fence` decodifica como `jal`. No hay excepciones ni interrupciones. La prueba ISA `ecall` y `ebreak` falla porque espera que sean instrucciones nulas.
+`MRET` se decodifica como cualquier instrucción `SYSTEM` con `funct3 = 0`, de modo que `ecall` y `ebreak` saltan a `mepc` (que vale 0 hasta la primera interrupción). No hay excepciones: solo existe la línea de interrupción. `fence` decodifica como `jal`. Las pruebas que esperaban que `ecall` y `ebreak` fueran instrucciones nulas (ISA `ecall`/`ebreak` y `test_rdcycle_and_system`) fallan por esta causa. Evita ambas instrucciones en el firmware.
 
 ## L5 · Direcciones de 24 bits {#l5}
 
@@ -60,7 +59,7 @@ Cualquier instrucción con *opcode* `SYSTEM` devuelve el contador de ciclos. `fe
 
 ## L6 · Estado inicial indeterminado {#l6}
 
-El banco de registros no tiene *reset* y `cycles` arranca sin valor. Inicializa todos los registros al arrancar (lo hace `crt0.S`) y usa `cycles` solo para diferencias entre dos lecturas.
+El banco de registros es una SRAM y no se inicializa: `x1`–`x31` arrancan con contenido arbitrario. Inicialízalos al arrancar (lo hace `crt0.S`). El contador `cycles` sí se pone a cero con el *reset*.
 
 ## L7 · Direcciones sin mapear {#l7}
 
@@ -77,13 +76,21 @@ Entre `MappedSPIMultidrop` y la CPU (`writeBack`, `aluWr`) existe un lazo combin
 
 ## L10 · Estado de la suite de pruebas {#l10}
 
-Con las causas L1 y L3 sin resolver, la suite de aceptación (lo único que corre el CI) probablemente no pase, y tarda más de diez minutos. Además, `test/results/` y el informe en PDF corresponden a versiones anteriores
-del diseño; véase [Verificación]({{ '/development/verificacion/' | relative_url }}).
+Dos cosas siguen sin resolver en el lado de las pruebas:
+
+- `UART_CYCLES_PER_BIT = 208` en `test/lib/soc.py` (y 208 literal en pruebas funcionales, de extremo a extremo y en `spimodels.py`), frente a los 217 de la UART actual. Por el cálculo de [UART]({{ '/development/uart/' | relative_url }}#pruebas), la diferencia cabe dentro del margen de muestreo; aun así conviene alinearlos.
+- `REQ-05a` mide la velocidad con un reloj de referencia de 24 MHz; con el divisor de 25 MHz da −3,99 % y quedaría fuera de ±3 %. `REQ-06c` (27 MHz) se eliminó.
+
+Además, `test/results/` y el informe en PDF son anteriores a los cambios recientes del RTL (UART, banco SRAM e interrupciones); véase [Verificación]({{ '/development/verificacion/' | relative_url }}). La suite de aceptación (lo único que corre el CI) tarda más de diez minutos.
+
+## L11 · Macro SRAM sin generar {#l11}
+
+`src/config.json` y `info.yaml` ya apuntan a la macro `sky130_sram_32x32_1rw1r`, pero `macros/` solo contiene un modelo funcional escrito a mano. Faltan los archivos `.lef`, `.gds` y `_TT_1p8V_25C.lib`, que se generan con OpenRAM (`open_ram/sram_32x32_1rw1r_config.py`). Mientras no estén, la simulación funciona pero el endurecimiento no. Detalles en [Flujo ASIC]({{ '/development/asic/' | relative_url }}#macro).
 
 ## Qué falta por hacer {#pendiente}
 
-1. Decidir si se corrige el generador de baudios o las pruebas (L1 y L10), y hacerlo en ambos lados.
-2. Añadir máscara de bytes y alineación en el controlador de RAM, o documentar de forma definitiva que solo se admiten palabras completas (L3).
-3. Corregir la evaluación del bit de parada del receptor (L2).
+1. Generar la macro SRAM con OpenRAM y colocar el LEF, el GDS y el `.lib` en `macros/` (L11).
+2. Alinear la biblioteca de pruebas con la UART nueva (217 ciclos por bit) y decidir qué hacer con `REQ-05a` (L10).
+3. Añadir máscara de bytes y alineación en el controlador de RAM, o documentar de forma definitiva que solo se admiten palabras completas (L3).
 4. Repetir la verificación completa y actualizar `test/results/` y el informe en PDF para el diseño multidrop.
 5. Validar en hardware, con la FPGA y con el silicio, la salida esperada de `hello.c`.
